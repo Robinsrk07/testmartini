@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Shoping Cart</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="/assets/images/icons/favicon.png"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/assets/vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/assets/fonts/iconic/css/material-design-iconic-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/assets/fonts/linearicons-v1.0.0/icon-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/assets/vendor/animate/animate.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="/assets/vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/assets/vendor/animsition/css/animsition.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/assets/vendor/select2/select2.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/assets/vendor/perfect-scrollbar/perfect-scrollbar.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/assets/css/util.css">
+	<link rel="stylesheet" type="text/css" href="/assets/css/main.css">
+<!--===============================================================================================-->
+
+</head>
+
+<body class="animsition">
+	
+	<!-- Header -->
+	<header class="header-v4">
+		<!-- Header desktop -->
+		<div class="container-menu-desktop">
+			<!-- Topbar -->
+			<div class="top-bar">
+				<div class="content-topbar flex-sb-m h-full container">
+					<div class="left-top-bar">
+						Free shipping for standard order over RS 1000
+					</div>
+
+					<div class="right-top-bar flex-w h-full">
+						
+
+						<% if (user) { %>
+							<!-- Show username when logged in -->
+							<a href="" class="flex-c-m trans-04 p-lr-25">
+								 Welcome <%= username.name %>
+							</a>
+							<a href="/user/logout" class="flex-c-m trans-04 p-lr-25">
+								Logout
+							</a>
+						<% } else { %>
+							<!-- Show "My Account" when not logged in -->
+							<a href="/user/login" class="flex-c-m trans-04 p-lr-25">
+								My Account
+							</a>
+						<% } %>
+
+						<a href="/user/userhome" class="flex-c-m trans-04 p-lr-25">
+							MY PROFILE
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="wrap-menu-desktop how-shadow1">
+				<nav class="limiter-menu-desktop container">
+					
+					<!-- Logo desktop -->		
+					<a href="#" class="logo">
+						<!-- <img src="../assets/images/icons/logo-01.png" alt="IMG-LOGO"> -->
+						 <h2 class="text-secondary"> <span>PINK</span>  MARTINI</h2>
+					</a>
+
+					<!-- Menu desktop -->
+					<div class="menu-desktop">
+						<ul class="main-menu">
+							<li>
+								<a href="/user/user_logged">Home</a>
+								
+							</li>
+						</ul>
+					</div>	
+
+					<!-- Icon header -->
+					<div class="wrap-icon-header flex-w flex-r-m">
+						
+						<a href="/user/cart">
+							<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="<%= locals.totalQuantity || 0 %>">
+								<i class="zmdi zmdi-shopping-cart"></i>
+							</div></a>
+
+						<a href="/user/getwishlist" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="<%= locals.wishlistCount || 0 %>">
+								<i class="zmdi zmdi-favorite-outline"></i>
+							</a>
+					</div>
+				</nav>
+			</div>	
+		</div>
+
+		<!-- Header Mobile -->
+		<div class="wrap-header-mobile">
+			<!-- Logo moblie -->		
+			<a href="#" class="logo">
+				<!-- <img src="../assets/images/icons/logo-01.png" alt="IMG-LOGO"> -->
+				 <h2 class="text-secondary"> <span>PINK</span>  MARTINI</h2>
+			</a>
+
+			<!-- Icon header -->
+			<div class="wrap-icon-header flex-w flex-r-m m-r-15">
+				
+
+				<a href="/user/cart">
+					<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="<%= locals.totalQuantity || 0 %>">
+						<i class="zmdi zmdi-shopping-cart"></i>
+					</div></a>
+
+				<a href="/user/getwishlist" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="<%= locals.wishlistCount || 0 %>">
+						<i class="zmdi zmdi-favorite-outline"></i>
+					</a>
+			</div>
+
+			<!-- Button show menu -->
+			<div class="btn-show-menu-mobile hamburger hamburger--squeeze">
+				<span class="hamburger-box">
+					<span class="hamburger-inner"></span>
+				</span>
+			</div>
+		</div>
+
+
+		<!-- Menu Mobile -->
+		<div class="menu-mobile">
+			<ul class="topbar-mobile">
+				<li>
+					<div class="left-top-bar">
+						Free shipping for standard order over RS 1000
+					</div>
+				</li>
+
+				<li>
+					<div class="right-top-bar flex-w h-full">
+						<% if (user) { %>
+							<!-- Show username when logged in -->
+							<a href="" class="flex-c-m trans-04 p-lr-25">
+								 Welcome <%= username.name %>
+							</a>
+							<a href="/user/logout" class="flex-c-m trans-04 p-lr-25">
+								Logout
+							</a>
+						<% } else { %>
+							<!-- Show "My Account" when not logged in -->
+							<a href="/user/login" class="flex-c-m trans-04 p-lr-25">
+								My Account
+							</a>
+						<% } %>
+
+						<a href="/user/userhome" class="flex-c-m trans-04 p-lr-25">
+							MY PROFILE
+						</a>
+					</div>
+				</li>
+			</ul>
+
+			<ul class="main-menu-m">
+				<li>
+					<a href="/user/user_logged">Home</a>
+					
+					<span class="arrow-main-menu-m">
+						<i class="fa fa-angle-right" aria-hidden="true"></i>
+					</span>
+				</li>
+
+				
+			</ul>
+		</div>
+
+		
+	</header>
+
+	
+
+
+	<!-- breadcrumb -->
+	<div class="container">
+		<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
+			<a href="/user/user_logged" class="stext-109 cl8 hov-cl1 trans-04">
+				Home
+				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+			</a>
+
+			<span class="stext-109 cl4">
+	          Wishlist
+			</span>
+		</div>
+	</div>
+	<style>
+		.wishlist-table {
+			width: 100%;
+			border-collapse: separate;
+			border-spacing: 0 15px;
+			margin-top: 20px;
+		}
+	
+		.wishlist-table th {
+			background-color: #f8f9fa;
+			color: #495057;
+			font-weight: 600;
+			text-transform: uppercase;
+			padding: 15px;
+			text-align: left;
+			border-bottom: 2px solid #dee2e6;
+		}
+	
+		.wishlist-table td {
+			background-color: #ffffff;
+			padding: 20px 15px;
+			vertical-align: middle;
+			border-top: 1px solid #dee2e6;
+			transition: all 0.3s ease;
+		}
+	
+		.wishlist-table tr:hover td {
+			background-color: #f1f3f5;
+			box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+		}
+	
+		.product-image {
+			width: 80px;
+			height: 80px;
+			object-fit: cover;
+			border-radius: 8px;
+		}
+	
+		.product-name {
+			font-weight: 500;
+			color: #212529;
+		}
+	
+		.product-price {
+			font-weight: 600;
+			color: #28a745;
+		}
+	
+		.btn-action {
+			padding: 8px 15px;
+			margin: 0 5px;
+			border: none;
+			border-radius: 20px;
+			font-size: 0.9rem;
+			font-weight: 500;
+			cursor: pointer;
+			transition: all 0.3s ease;
+		}
+	
+		.btn-add-to-cart {
+			background-color: #007bff;
+			color: white;
+		}
+	
+		.btn-add-to-cart:hover {
+			background-color: #0056b3;
+		}
+	
+		.btn-remove-item {
+			background-color: #dc3545;
+			color: white;
+		}
+	
+		.btn-remove-item:hover {
+			background-color: #c82333;
+		}
+	
+		.empty-wishlist {
+			text-align: center;
+			padding: 50px 0;
+			color: #6c757d;
+			font-size: 1.2rem;
+		}
+	</style>
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<% if (wishlistItems && wishlistItems.length > 0) { %>
+					<table class="wishlist-table">
+						<thead>
+							<tr>
+								<th style="padding-right: 80px;">Product</th>
+								<th style="padding-right: 50px;" >Name</th>
+								<th style="padding-right: 50px;">Price</th>
+								<th style="padding-right: 50px;">Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% wishlistItems.forEach(function(item) { %>
+								<tr>
+									<td style="padding-right: 30px;">
+										<% if (item.imageUrl) { %>
+											<img src="<%= item.imageUrl %>" alt="Product Image" class="product-image">
+										<% } else { %>
+											<div class="no-image">No image</div>
+										<% } %>
+									</td>
+									<td style="padding-right: 30px;" class="product-name"><%= item.title %></td>
+									<td style="padding-right: 30px;" class="product-price">RS.<%= typeof item.price === 'number' ? item.price.toFixed(2) : item.price %></td>
+									<td style="padding-right: 30px;" >
+										<button class="btn-action btn-add-to-cart" 
+												data-id="<%= item._id %>" 
+												data-colour-id="<%= item.colourId %>" 
+												data-size-id="<%= item.sizeId %>">
+											Add to Cart
+										</button>
+										<button class="btn-action btn-remove-item" data-id="<%= item._id %>">Remove</button>
+									</td>
+								</tr>
+							<% }); %>
+						</tbody>
+					</table>
+				<% } else { %>
+					<div class="empty-wishlist">
+						<p>Your wishlist is empty. Start adding some items!</p>
+					</div>
+				<% } %>
+			</div>
+		</div>
+	</div>
+					
+	
+					</div>
+				</div>
+	
+				
+				
+	<!-- Footer -->
+	<footer class="bg3 p-t-75 p-b-32">
+		<div class="container">
+			<div class="row justify-content-between">
+				<div class="col-sm-6 col-lg-3 p-b-50">
+					<h4 class="stext-301 cl0 p-b-30">
+						Categories
+					</h4>
+					<ul>
+						<% category.forEach(function(category) { %>
+							<li class="p-b-10">
+								<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+									<%= category.name %>
+								</a>
+							</li>
+						<% }); %>
+					</ul>
+				</div>
+		
+				<div class="col-sm-6 col-lg-4 p-b-50 order-lg-3 p-2 ">
+					<h4 class="stext-301 cl0 p-b-30">
+						Newsletter
+					</h4>
+					<form>
+						<div class="wrap-input1 w-full p-b-4">
+							<input class="input1 bg-none plh1 stext-107 cl7" type="text" name="email" placeholder="pinkmartini@gmail.com">
+							<div class="focus-input1 trans-04"></div>
+						</div>
+						<div class="p-t-18">
+							<button class="flex-c-m stext-101 cl0 size-103 bg1 bor1 hov-btn2 p-lr-15 trans-04">
+								Subscribe
+							</button>
+						</div>
+					</form>
+				</div>
+		
+				<div class="col-sm-6 col-lg-3 p-b-50 mx-auto order-lg-2">
+					<h4 class="stext-301 cl0 p-b-30">
+						GET IN TOUCH
+					</h4>
+					<p class="stext-107 cl7 size-201">
+						Any questions? Let us know in store at 2nd floor kalpetta, wayanad :+919562687807
+					</p>
+				</div>
+			</div>
+		
+			<div class="p-t-40">
+				<div class="flex-c-m flex-w p-b-18">
+					<a href="#" class="m-all-1">
+						<img src="/assets/images/icons/icon-pay-01.png" alt="ICON-PAY">
+					</a>
+					<a href="#" class="m-all-1">
+						<img src="/assets/images/icons/icon-pay-02.png" alt="ICON-PAY">
+					</a>
+					<a href="#" class="m-all-1">
+						<img src="/assets/images/icons/icon-pay-03.png" alt="ICON-PAY">
+					</a>
+					<a href="#" class="m-all-1">
+						<img src="/assets/images/icons/icon-pay-04.png" alt="ICON-PAY">
+					</a>
+					<a href="#" class="m-all-1">
+						<img src="/assets/images/icons/icon-pay-05.png" alt="ICON-PAY">
+					</a>
+				</div>
+				<p class="stext-107 cl6 txt-center">
+					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+					Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">TECHFINIT GLOBAL</a> &amp; distributed by <a href="https://themewagon.com" target="_blank">PINK MARTINI</a>
+					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+				</p>
+			</div>
+		</div>
+	</footer>
+
+
+	<!-- Back to top -->
+	<div class="btn-back-to-top" id="myBtn">
+		<span class="symbol-btn-back-to-top">
+			<i class="zmdi zmdi-chevron-up"></i>
+		</span>
+	</div>
+
+    <script>document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.btn-add-to-cart').forEach(function (button) {
+            button.addEventListener('click', function () {
+                const productId = button.getAttribute('data-id');
+                const colourId = button.getAttribute('data-colour-id');
+                const sizeId = button.getAttribute('data-size-id');
+                const userId = '<%=user %>';
+                const quantity = 1; // Assuming quantity is always 1 for this example
+    
+                fetch('/user/addedtocart', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userId: userId,
+                        productId: productId,
+                        colourId: colourId,
+                        sizeId: sizeId,
+                        quantity: quantity
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.message);
+                    alert('Product added to cart!');
+                    if (data.totalQuantity !== undefined) {
+                        localStorage.setItem('cartQuantity', data.totalQuantity);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to add product to cart.');
+                });
+            });
+        });
+    });
+
+    document.querySelectorAll('.btn-remove-item').forEach(function (button) {
+            button.addEventListener('click', function () {
+                const productId = button.getAttribute('data-id');
+                const userId = '<%= user %>';
+
+                fetch('/user/removefromwishlist', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userId: userId,
+                        productId: productId
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.message);
+                    alert('Product removed from wishlist!');
+                    location.reload(); // Refresh the wishlist
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to remove product from wishlist.');
+                });
+            });
+        });
+    
+    </script>
+<!--===============================================================================================-->	
+	<script src="/assets/vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="/assets/vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+	<script src="/assets/vendor/bootstrap/js/popper.js"></script>
+	<script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="/assets/vendor/select2/select2.min.js"></script>
+	<script>
+		$(".js-select2").each(function(){
+			$(this).select2({
+				minimumResultsForSearch: 20,
+				dropdownParent: $(this).next('.dropDownSelect2')
+			});
+		})
+	</script>
+<!--===============================================================================================-->
+	<script src="/assets/vendor/MagnificPopup/jquery.magnific-popup.min.js"></script>
+<!--===============================================================================================-->
+	<script src="/assets/vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+	<script>
+		$('.js-pscroll').each(function(){
+			$(this).css('position','relative');
+			$(this).css('overflow','hidden');
+			var ps = new PerfectScrollbar(this, {
+				wheelSpeed: 1,
+				scrollingThreshold: 1000,
+				wheelPropagation: false,
+			});
+
+			$(window).on('resize', function(){
+				ps.update();
+			})
+		});
+	</script>
+<!--===============================================================================================-->
+	<script src="/assets/js/main.js"></script>
+
+</body>
+</html>

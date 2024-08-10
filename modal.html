@@ -1,0 +1,331 @@
+const mongoose = require("mongoose")
+
+const brandSchema = new mongoose.Schema({
+    name:{
+        type : String,
+        required : true 
+    }
+})
+
+module.exports = mongoose.model("brand",brandSchema)
+const mongoose = require("mongoose")
+
+  const categorySchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    image: {
+      data: { type: Buffer, required: true },
+      contentType: { type: String, required: true }
+    }, 
+    is_list: { type: Boolean, default: true }
+  });
+ 
+
+module.exports = mongoose.model("category",categorySchema);
+const mongoose = require("mongoose")
+
+const colourSchema = new mongoose.Schema({
+    product:{
+        type : mongoose.Schema.Types.ObjectId,ref : product
+    },
+    colour : {
+        type :String,
+        required : true
+    },
+    
+})
+ module.exports = mongoose.model("colour", colourSchema)
+ const mongoose = require("mongoose")
+
+
+const productSchema = new mongoose.Schema({
+    name :{
+        type: String,
+        required : true 
+    },
+    category:{
+        type : mongoose.Schema.Types.ObjectId ,ref : category,
+        
+    },
+    brand : {
+        type : mongoose.Schema.Types.ObjectId,ref  : Brand,
+        
+    },
+    is_list : {
+        type : Boolean,
+        required : true
+    }
+          
+
+})
+module.exports = mongoose.model("product",productSchema);
+const mongoose = require("mongoose")
+
+
+const productSchema = new mongoose.Schema({
+    name :{
+        type: String,
+        required : true 
+    },
+    category:{
+        type : mongoose.Schema.Types.ObjectId ,ref : category,
+        
+    },
+    brand : {
+        type : mongoose.Schema.Types.ObjectId,ref  : Brand,
+        
+    },
+    is_list : {
+        type : Boolean,
+        required : true
+    }
+          
+
+})
+module.exports = mongoose.model("product",productSchema);
+const mongoose = require("mongoose")
+
+ const sizeSchema = new mongoose.Schema({
+    size: {
+        type : String,
+        required : true
+    } ,
+    product:{
+        type : mongoose.Schema.Types.ObjectId,ref : product,
+    },
+    colour :{
+        type : mongoose.Schema.Types.ObjectId, ref : colour
+    },
+    quantity : {
+        type : String,
+        required : true
+    }, 
+    price : {
+        type : String,
+        required : true
+    }
+ })
+  
+
+ module.exports = mongoose.model("size",sizeSchema)\
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <style>
+        .color-box {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .color-box.selected {
+            border-color: #000;
+        }
+
+        .color-label {
+            display: inline-block;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .color-input {
+            display: none;
+        }
+
+        .color-box {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+        }
+
+        .color-input:checked + .color-box {
+            border-color: #000;
+        }
+    </style>
+</head>
+<body>
+    <section class="sec-product-detail bg0 p-t-65 p-b-60">
+        <div class="container">
+            <div class="row">
+                <!-- Image Gallery -->
+                <div class="col-md-6 col-lg-7 p-b-30">
+                    <div class="p-l-25 p-r-30 p-lr-0-lg">
+                        <div class="wrap-slick3 flex-sb flex-w">
+                            <div class="wrap-slick3-dots"></div>
+                            <div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
+
+                            <div class="slick3 gallery-lb tozoom" id="image-gallery">
+                                <% if (products && products.variants.length > 0) { %>
+                                    <% const firstVariant = products.variants[0]; %>
+                                    <% if (firstVariant.images && firstVariant.images.length > 0) { %>
+                                        <% firstVariant.images.forEach(image => { %>
+                                            <div class="item-slick3 zoom-container" data-thumb="data:<%= image.imagetype %>;base64,<%= image.imagedata.toString('base64') %>">
+                                                <div class="wrap-pic-w pos-relative">
+                                                    <img class="product-image" src="data:<%= image.imagetype %>;base64,<%= image.imagedata.toString('base64') %>" alt="IMG-PRODUCT" style="width: 100%; height: 500px; object-fit: cover;">
+                                                    <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="data:<%= image.imagetype %>;base64,<%= image.imagedata.toString('base64') %>">
+                                                        <i class="fa fa-expand"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        <% }) %>
+                                    <% } else { %>
+                                        <p>No images available for this variant.</p>
+                                    <% } %>
+                                <% } else { %>
+                                    <p>No images available for this product.</p>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Details -->
+                <div class="col-md-6 col-lg-5 p-b-30">
+                    <div class="p-r-50 p-t-5 p-lr-0-lg">
+                        <h4 class="mtext-105 cl2 js-name-detail p-b-14">
+                            <%= products.title %>
+                        </h4>
+                        <span class="mtext-106 cl2" id="product-price">
+                            $<%= products.variants[0].price %>
+                        </span>
+
+                        <p class="stext-102 cl3 p-t-23">
+                            Men Printed Polo Neck Cotton Blend Blue T-Shirt
+                        </p>
+
+                        <!-- Options -->
+                        <div class="flex-w flex-r-m p-b-10">
+                            <div class="size-203 flex-c-m respon6">
+                                Size
+                            </div>
+
+                            <div class="size-204 respon6-next">
+                                <div class="rs1-select2 bor8 bg0">
+                                    <select class="js-select2" name="size">
+                                        <option value="">Choose an option</option>
+                                        <% products.variants.forEach(variant => { %>
+                                            <% variant.sizeQuantities.forEach(sizeQuantity => { %>
+                                                <option value="<%= sizeQuantity.size._id %>"><%= sizeQuantity.size.size %></option>
+                                            <% }) %>
+                                        <% }) %>
+                                    </select>
+                                    <div class="dropDownSelect2"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex-w flex-r-m p-b-10">
+                            <div class="size-203 flex-c-m respon6">
+                                Color
+                            </div>
+
+                            <div class="size-204 respon6-next">
+                                <div class="rs1-select2 bor8 bg0 flex-wrap">
+                                    <% products.variants.forEach(variant => { %>
+                                        <label class="color-label">
+                                            <input type="radio" name="color" class="color-input" value="<%= variant.colour._id %>" data-color-id="<%= variant.colour._id %>">
+                                            <span class="color-box" style="background-color: <%= variant.colour.colour %>;"></span>
+                                        </label>
+                                    <% }) %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // JavaScript to handle the zoom functionality
+        document.querySelectorAll('.zoom-container').forEach(container => {
+            container.addEventListener('mousemove', function(e) {
+                const img = container.querySelector('img');
+                const rect = container.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const xPercent = (x / container.offsetWidth) * 100;
+                const yPercent = (y / container.offsetHeight) * 100;
+
+                img.style.transformOrigin = `${xPercent}% ${yPercent}%`;
+                img.style.transform = "scale(2)";
+            });
+
+            container.addEventListener('mouseleave', function() {
+                const img = container.querySelector('img');
+                img.style.transform = "scale(1)";
+                img.style.transformOrigin = "center center";
+            });
+        });
+
+        // JavaScript to handle color selection
+        document.addEventListener('DOMContentLoaded', function() {
+            const variants = JSON.parse('<%= JSON.stringify(products.variants) %>');
+
+            document.querySelectorAll('.color-input').forEach(input => {
+                input.addEventListener('change', () => {
+                    // Get the selected color ID
+                    const selectedColorId = input.dataset.colorId;
+
+                    // Find the variant with the selected color
+                    const selectedVariant = variants.find(variant => variant.colour._id === selectedColorId);
+
+                    if (selectedVariant) {
+                        // Update the product images
+                        const imageContainer = document.getElementById('image-gallery');
+                        imageContainer.innerHTML = '';
+                        selectedVariant.images.forEach(image => {
+                            const imageElement = document.createElement('div');
+                            imageElement.className = 'item-slick3 zoom-container';
+                            imageElement.dataset.thumb = `data:${image.imagetype};base64,${image.imagedata.toString('base64')}`;
+                            imageElement.innerHTML = `
+                                <div class="wrap-pic-w pos-relative">
+                                    <img class="product-image" src="data:${image.imagetype};base64,${image.imagedata.toString('base64')}" alt="IMG-PRODUCT" style="width: 100%; height: 500px; object-fit: cover;">
+                                    <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="data:${image.imagetype};base64,${image.imagedata.toString('base64')}">
+                                        <i class="fa fa-expand"></i>
+                                    </a>
+                                </div>
+                            `;
+                            imageContainer.appendChild(imageElement);
+                        });
+
+                        // Update the product price
+                        document.getElementById('product-price').textContent = `$${selectedVariant.price}`;
+                    } else {
+                        console.log('No matching variant found or variants not fetched yet');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,306 @@
+<%- include('header')-%>
+<div class="min-height-300 bg-light position-absolute w-100"></div>
+<aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4" id="sidenav-main">
+  <div class="sidenav-header">
+    <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+    <a class="navbar-brand m-0" href="https://demos.creative-tim.com/argon-dashboard/pages/dashboard.html" target="_blank">
+      <img src="/assets/img/logo-ct-dark.png" class="navbar-brand-img h-100" alt="main_logo">
+      <span class="ms-1 font-weight-bolder"><span class="font-weight-normal">PINK</span> MARTINI</span>
+    </a>
+  </div>
+  <hr class="horizontal dark mt-0">
+  <div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link active" href="/admin/login">
+          <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
+          </div>
+          <span class="nav-link-text ms-1">DASH BOARD</span>
+        </a>
+      </li>
+    <!-- <form action="/category" method="GET"> -->
+      <li class="nav-item ">
+        <a class="nav-link " href="/admin/category">
+          <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
+          </div>
+          <span class="nav-link-text ms-1">Category</span>
+        </a>
+      </li>
+    <!-- </form> -->
+      <li class="nav-item">
+        <a class="nav-link " href="/admin/Products">
+          <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
+          </div>
+          <span class="nav-link-text ms-1">Products</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href="/admin/orders">
+          <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="ni ni-app text-info text-sm opacity-10"></i>
+          </div>
+          <span class="nav-link-text ms-1">Orders</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href="/admin/users">
+          <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="ni ni-world-2 text-danger text-sm opacity-10"></i>
+          </div>
+          <span class="nav-link-text ms-1">Users</span>
+        </a>
+      </li>
+      <!-- <li class="nav-item mt-3">
+        <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
+      </li> -->
+      <li class="nav-item">
+        <!-- <a class="nav-link " href="">
+          <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
+          </div>
+          <span class="nav-link-text ms-1">Brand</span>
+        </a> -->
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href="/admin/coupons">
+          <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="ni ni-single-copy-04 text-warning text-sm opacity-10"></i>
+          </div>
+          <span class="nav-link-text ms-1">Coupons</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href="/admin/offers">
+          <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="ni ni-collection text-info text-sm opacity-10"></i>
+          </div> 
+          <span class="nav-link-text ms-1">Category Offers</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href="/admin/ProductOffersPage">
+          <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="ni ni-collection text-info text-sm opacity-10"></i>
+          </div>
+          <span class="nav-link-text ms-1">Product Offers</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href="/admin/SalesReport">
+          <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="ni ni-collection text-info text-sm opacity-10"></i>
+          </div>
+          <span class="nav-link-text ms-1">Sales Report</span>
+        </a>
+      </li>
+      
+      <li class="nav-item">
+        <a class="nav-link " href="/admin/logout">
+          <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="ni ni-collection text-info text-sm opacity-10"></i>
+          </div>
+          <span class="nav-link-text ms-1">Logout</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</aside>
+<main class="main-content position-relative border-radius-lg">
+  <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="false">
+    <div class="container-fluid py-1 px-3">
+      <nav aria-label="breadcrumb">
+        <h6 class="font-weight-bolder text-dark mb-0">USERS LIST</h6>
+      </nav>
+      <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+        <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+          
+        </div>
+        <ul class="navbar-nav justify-content-end">
+          <li class="nav-item d-flex align-items-center">
+            
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="table-responsive">
+          <% if (users) { %>
+            <table class="table table"><style>
+              table.table td,
+              table.table th {
+                color: #000000; /* Black font color */
+              }
+            </style>
+             <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th>SL:NO</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>wallet_balance</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% users.forEach((user, index) => { %>
+                  <tr>
+                    <td><%= index + 1 %></td>
+                    <td><%= user.name %></td>
+                    <td><%= user.email %></td>
+                    <td><%= user.mobile %></td>
+                    <td style="padding-left: 70px;"><%= user.wallet_bal %></td>
+                    <td>
+                      <div class="btn-group">
+                        <% if (user.is_list) { %>
+                          <a href="/admin/block/<%= user._id %>" class="block-btn">
+                            <button class="btn btn-danger btn-sm" data-product-id="<%= user._id %>" data-is-listed="<%= user.is_list %>">
+                              Block
+                            </button>
+                          </a>
+                        <% } else { %>
+                          <a href="/admin/unblock/<%= user._id %>" class="unblock-btn">
+                            <button class="btn btn-success btn-sm" data-product-id="<%= user._id %>" data-is-listed="<%= user.is_list %>">
+                              Unblock
+                            </button>
+                          </a>
+                        <% } %>
+                      </div>
+                    </td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+            <% } else { %>
+              <h1>No users</h1>
+            <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</main><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Handle block confirmation
+    document.querySelectorAll('.block-btn').forEach(blockBtn => {
+      blockBtn.addEventListener('click', function(event) {
+        const confirmed = confirm('Are you sure you want to block this user?');
+        if (!confirmed) {
+          event.preventDefault(); // Prevent the default action (navigation) if not confirmed
+        }
+      });
+    });
+
+    // Handle unblock confirmation
+    document.querySelectorAll('.unblock-btn').forEach(unblockBtn => {
+      unblockBtn.addEventListener('click', function(event) {
+        const confirmed = confirm('Are you sure you want to unblock this user?');
+        if (!confirmed) {
+          event.preventDefault(); // Prevent the default action (navigation) if not confirmed
+        }
+      });
+    });
+  });
+</script>
+<script src="/assets/js/core/popper.min.js"></script>
+<script src="/assets/js/core/bootstrap.min.js"></script>
+<script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
+<script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+<script src="/assets/js/plugins/chartjs.min.js"></script>
+<script>
+  var ctx1 = document.getElementById("chart-line").getContext("2d");
+  var gradientStroke1 = ctx1.createLinearGradient(0, 230, 0, 50);
+  gradientStroke1.addColorStop(1, 'rgba(94, 114, 228, 0.2)');
+  gradientStroke1.addColorStop(0.2, 'rgba(94, 114, 228, 0.0)');
+  gradientStroke1.addColorStop(0, 'rgba(94, 114, 228, 0)');
+  new Chart(ctx1, {
+    type: "line",
+    data: {
+      labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      datasets: [{
+        label: "Mobile apps",
+        tension: 0.4,
+        borderWidth: 0,
+        pointRadius: 0,
+        borderColor: "#5e72e4",
+        backgroundColor: gradientStroke1,
+        borderWidth: 3,
+        fill: true,
+        data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+        maxBarThickness: 6
+      }],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: false,
+        }
+      },
+      interaction: {
+        intersect: false,
+        mode: 'index',
+      },
+      scales: {
+        y: {
+          grid: {
+            drawBorder: false,
+            display: true,
+            drawOnChartArea: true,
+            drawTicks: false,
+            borderDash: [5, 5]
+          },
+          ticks: {
+            display: true,
+            padding: 10,
+            color: '#fbfbfb',
+            font: {
+              size: 11,
+              family: "Open Sans",
+              style: 'normal',
+              lineHeight: 2
+            },
+          }
+        },
+        x: {
+          grid: {
+            drawBorder: false,
+            display: false,
+            drawOnChartArea: false,
+            drawTicks: false,
+            borderDash: [5, 5]
+          },
+          ticks: {
+            display: true,
+            color: '#ccc',
+            padding: 20,
+            font: {
+              size: 11,
+              family: "Open Sans",
+              style: 'normal',
+              lineHeight: 2
+            },
+          }
+        },
+      },
+    },
+  });
+</script>
+<script>
+  var win = navigator.platform.indexOf('Win') > -1;
+  if (win && document.querySelector('#sidenav-scrollbar')) {
+    var options = {
+      damping: '0.5'
+    }
+    Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+  }
+</script>
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<script src="/assets/js/argon-dashboard.min.js?v=2.0.4"></script>
+<%- include('footer')-%>

@@ -1,0 +1,406 @@
+<%- include('header')-%>
+<body class="animsition">
+	
+	<!-- Header --><style>
+  #fixed-top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: inherit; /* This will maintain the current background color */
+  }
+
+  body {
+    padding-top: 40px; /* Adjust this value based on the height of your top bar */
+  }
+
+  /* If your top bar is inside the header, adjust the header's top margin */
+  .header-v4 {
+    margin-top: 40px; /* Should match the body's padding-top */
+  }
+</style>
+	<header class="header-v4">
+		<!-- Header desktop -->
+		<div class="container-menu-desktop">      <div id="fixed-top-bar">
+
+			<!-- Topbar -->
+			<div class="top-bar">
+				<div class="content-topbar flex-sb-m h-full container">
+					<div class="left-top-bar">
+						Free shipping for standard order over RS 1000
+					</div>
+
+					<div class="right-top-bar flex-w h-full">
+						
+
+						<% if (user) { %>
+							<!-- Show username when logged in -->
+							<a href="" class="flex-c-m trans-04 p-lr-25">
+								 Welcome <%= user.name %>
+							</a>
+							<a href="/user/logout" class="flex-c-m trans-04 p-lr-25">
+								Logout
+							</a>
+						<% } else { %>
+							<!-- Show "My Account" when not logged in -->
+							<a href="/user/login" class="flex-c-m trans-04 p-lr-25">
+								My Account
+							</a>
+						<% } %>
+
+						<a href="/user/userhome" class="flex-c-m trans-04 p-lr-25">
+							MY PROFILE
+						</a>
+            <a href="/user/user_logged" class="flex-c-m trans-04 p-lr-25">
+							MY HOME
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="wrap-menu-desktop how-shadow1">
+				<nav class="limiter-menu-desktop container">
+					
+					<!-- Logo desktop -->		
+					<a href="#" class="logo">
+						<h2 class="text-secondary"> <span>PINK</span>  MARTINI</h2>
+					</a>
+
+					<!-- Menu desktop -->
+					
+
+					<!-- Icon header -->
+					<div class="wrap-icon-header flex-w flex-r-m">
+						
+
+						<a href="/user/cart">
+							<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="<%= totalQuantity %>">
+								<i class="zmdi zmdi-shopping-cart"></i>
+							</div>
+						</a>
+							<a href="/user/getwishlist" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
+								<i class="zmdi zmdi-favorite-outline"></i>
+							</a>
+					</div>
+				</nav>
+			</div>	
+		</div>
+           
+			<!-- Header Mobile -->
+		<div class="wrap-header-mobile">
+			<!-- Logo moblie -->		
+			<div class="logo-mobile">
+				<h2 class="text-secondary"> <span>PINK</span>  MARTINI</h2>
+			</div>
+
+			<!-- Icon header -->
+			<div class="wrap-icon-header flex-w flex-r-m m-r-15">
+				<a href="/user/cart">
+					<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="<%= totalQuantity %>">
+						<i class="zmdi zmdi-shopping-cart"></i>
+					</div>
+				</a>
+					<a href="/user/getwishlist" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
+						<i class="zmdi zmdi-favorite-outline"></i>
+					</a>
+			</div>
+
+			<!-- Button show menu -->
+			<div class="btn-show-menu-mobile hamburger hamburger--squeeze">
+				<span class="hamburger-box">
+					<span class="hamburger-inner"></span>
+				</span>
+			</div>
+		</div>
+
+
+		<!-- Menu Mobile -->
+		<div class="menu-mobile">
+			<ul class="topbar-mobile">
+				<li>
+					<div class="left-top-bar">
+						Free shipping for standard order over RS 1000
+					</div>
+				</li>
+
+				<li>
+					<div class="right-top-bar flex-w h-full">
+						<% if (user) { %>
+							<!-- Show username when logged in -->
+							<a href="" class="flex-c-m trans-04 p-lr-25">
+								 Welcome <%= user.name %>
+							</a>
+							<a href="/user/logout" class="flex-c-m trans-04 p-lr-25">
+								Logout
+							</a>
+						<% } else { %>
+							<!-- Show "My Account" when not logged in -->
+							<a href="/user/login" class="flex-c-m trans-04 p-lr-25">
+								My Account
+							</a>
+						<% } %>
+
+						<a href="/user/userhome" class="flex-c-m trans-04 p-lr-25">
+							MY PROFILE
+						</a>
+						<a href="/user/user_logged" class="flex-c-m trans-04 p-lr-25">
+							MY HOME
+						</a>
+					</div>
+				</li>
+			</ul>
+
+			
+		</div>
+
+		<!-- Modal Search -->
+		<div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
+			<div class="container-search-header">
+				<button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
+					<img src="/assets/images/icons/icon-close2.png" alt="CLOSE">
+				</button>
+
+				<form class="wrap-search-header flex-w p-l-15">
+					<button class="flex-c-m trans-04">
+						<i class="zmdi zmdi-search"></i>
+					</button>
+					<input class="plh3" type="text" name="search" placeholder="Search...">
+				</form>
+			</div>
+		</div> </div>
+	</header>
+
+
+
+  <!-- <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl fixed-start ms-4" id="sidenav-main" style="max-height: 80vh; overflow-y: auto; top: 150px; height: calc(100% - 100px);">
+    <div class="sidenav-header py-2">
+      <i class="fas fa-times p-2 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+      <a class="navbar-brand m-0" href="#" target="_blank">
+        <img src="/assets/img/logo-ct-dark.png" class="navbar-brand-img h-100" alt="main_logo" style="max-height: 25px;">
+        <span class="ms-1 font-weight-bold" style="font-size: 0.9em;">PINK MARTINI</span>
+      </a>
+    </div>
+    <hr class="horizontal dark my-1">
+    <div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active text-dark py-1" href="">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">MY ACCOUNT</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link py-1" href="/user/getAdress">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Address</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link py-1" href="/user/show_orders">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-app text-info text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Orders</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link py-1" href="/user/wallet">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-world-2 text-danger text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Wallet</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link py-1" href="">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-collection text-info text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Logout</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </aside> -->
+<main class="main-content position-relative border-radius-lg">
+  
+  <div class="container my-5">
+    <h1 class="text-center mb-4">Order Details</h1>
+    
+    <% if (orders && orders.length > 0) { %>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>SL No</th>
+                        <th>Order Id</th>
+             
+                        <th>Payment Status</th>
+                        <th>Total Amount</th>
+                        <th>Address</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% orders.forEach((order, index) => { %>
+                        <tr>
+                            <td><%= index + 1 %></td>
+                            <td><%= order.orderId %></td>
+                            
+                            <td style="padding-left: 40px;"><span class="badge bg-<%= order.paymentStatus === 'Paid' ? 'success' : 'danger' %>"><%= order.paymentStatus %></span></td>
+                            <td style="padding-left: 40px;">₹<%= Math.round(order.totalPayable) %></td>
+                            <td>
+                                <button class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#addressModal<%= index %>">View Address</button>
+                            </td>
+                            <td>
+                              <a href="/user/order_details/<%= order._id %>" class="btn btn-sm btn-primary">Order Details</a>
+                            </td>
+                        </tr>
+
+                        <!-- Address Modal -->
+                        <div class="modal fade" id="addressModal<%= index %>" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Delivery Address</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p><strong>Name:</strong> <%= order.address.name %></p>
+                                        <p><strong>Phone:</strong> <%= order.address.phoneNumber %></p>
+                                        <p><strong>Email:</strong> <%= order.address.email %></p>
+                                        <p><strong>Address:</strong> <%= order.address.address %></p>
+                                        <p><strong>Locality:</strong> <%= order.address.locality %></p>
+                                        <p><strong>Pin Code:</strong> <%= order.address.pinCode %></p>
+                                        <p><strong>Additional Info:</strong> <%= order.address.additionalInfo %></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                      
+                    <% }) %>
+                    
+                </tbody>
+            </table>
+        </div>
+        <% } %> 
+        <nav aria-label="Page navigation">
+          <ul class="pagination justify-content-center">
+              <% if (currentPage > 1) { %>
+                  <li class="page-item">
+                      <a class="page-link" href="/user/show_orders?page=<%= currentPage - 1 %>&limit=<%= limit %>">Pre</a>
+                  </li>
+              <% } %>
+      
+              <% 
+              let startPage = Math.max(1, currentPage - 2);
+              let endPage = Math.min(totalPages, currentPage + 2);
+              
+              for(let i = startPage; i <= endPage; i++) { 
+              %>
+                  <li class="page-item <%= i === parseInt(currentPage) ? 'active' : '' %>">
+                      <a class="page-link" href="/user/show_orders?page=<%= i %>&limit=<%= limit %>"><%= i %></a>
+                  </li>
+              <% } %>
+      
+              <% if (currentPage < totalPages) { %>
+                  <li class="page-item">
+                      <a class="page-link" href="/user/show_orders?page=<%= currentPage + 1 %>&limit=<%= limit %>">Next</a>
+                  </li>
+              <% } %>
+          </ul>
+      </nav>
+      
+      <p class="text-center mt-3">
+          Showing <%= (currentPage - 1) * limit + 1 %>-<%= Math.min(currentPage * limit, totalOrders) %> of <%= totalOrders %> orders
+      </p>
+</main>
+
+<footer class="bg3 p-t-75 p-b-32">
+		<div class="container">
+			<div class="row justify-content-between">
+				<div class="col-sm-6 col-lg-3 p-b-50">
+					<h4 class="stext-301 cl0 p-b-30">
+						Categories
+					</h4>
+					<ul>
+						<% category.forEach(function(category) { %>
+							<li class="p-b-10">
+								<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+									<%= category.name %>
+								</a>
+							</li>
+						<% }); %>
+					</ul>
+				</div>
+		
+				<div class="col-sm-6 col-lg-4 p-b-50 order-lg-3 p-2 ">
+					<h4 class="stext-301 cl0 p-b-30">
+						Newsletter
+					</h4>
+					<form>
+						<div class="wrap-input1 w-full p-b-4">
+							<input class="input1 bg-none plh1 stext-107 cl7" type="text" name="email" placeholder="pinkmartini@gmail.com">
+							<div class="focus-input1 trans-04"></div>
+						</div>
+						<div class="p-t-18">
+							<button class="flex-c-m stext-101 cl0 size-103 bg1 bor1 hov-btn2 p-lr-15 trans-04">
+								Subscribe
+							</button>
+						</div>
+					</form>
+				</div>
+		
+				<div class="col-sm-6 col-lg-3 p-b-50 mx-auto order-lg-2">
+					<h4 class="stext-301 cl0 p-b-30">
+						GET IN TOUCH
+					</h4>
+					<p class="stext-107 cl7 size-201">
+						Any questions? Let us know in store at 2nd floor kalpetta, wayanad :+919562687807
+					</p>
+				</div>
+			</div>
+		
+			<div class="p-t-40">
+				<div class="flex-c-m flex-w p-b-18">
+					<a href="#" class="m-all-1">
+						<img src="/assets/images/icons/icon-pay-01.png" alt="ICON-PAY">
+					</a>
+					<a href="#" class="m-all-1">
+						<img src="/assets/images/icons/icon-pay-02.png" alt="ICON-PAY">
+					</a>
+					<a href="#" class="m-all-1">
+						<img src="/assets/images/icons/icon-pay-03.png" alt="ICON-PAY">
+					</a>
+					<a href="#" class="m-all-1">
+						<img src="/assets/images/icons/icon-pay-04.png" alt="ICON-PAY">
+					</a>
+					<a href="#" class="m-all-1">
+						<img src="/assets/images/icons/icon-pay-05.png" alt="ICON-PAY">
+					</a>
+				</div>
+				<p class="stext-107 cl6 txt-center">
+					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+					Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">TECHFINIT GLOBAL</a> &amp; distributed by <a href="https://themewagon.com" target="_blank">PINK MARTINI</a>
+					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+				</p>
+			</div>
+		</div>
+	</footer>
+
+<script src="/assets/js/core/popper.min.js"></script>
+<script src="/assets/js/core/bootstrap.min.js"></script>
+<script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
+<script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+<script src="/assets/js/plugins/chartjs.min.js"></script>
+
+
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<script src="/assets/js/argon-dashboard.min.js?v=2.0.4"></script>
+<%- include('footer')-%>

@@ -1,0 +1,449 @@
+<%- include('header')-%>
+<body class="animsition">
+	
+	<!-- Header -->
+	<header class="header-v4">
+		<!-- Header desktop -->
+		<div class="container-menu-desktop " >
+			<!-- Topbar --><style>
+  #fixed-top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: inherit; /* This will maintain the current background color */
+  }
+
+  body {
+    padding-top: 40px; /* Adjust this value based on the height of your top bar */
+  }
+
+  /* If your top bar is inside the header, adjust the header's top margin */
+  .header-v4 {
+    margin-top: 40px; /* Should match the body's padding-top */
+  }
+</style>
+      <div id="fixed-top-bar">
+
+			<div class="top-bar">
+				<div class="content-topbar flex-sb-m h-full container">
+					<div class="left-top-bar">
+						Free shipping for standard order over RS 1000
+					</div>
+
+					<div class="right-top-bar flex-w h-full">
+						
+
+						<% if (user) { %>
+							<!-- Show username when logged in -->
+							<a href="" class="flex-c-m trans-04 p-lr-25">
+								 Welcome <%= user.name %>
+							</a>
+							<a href="/user/logout" class="flex-c-m trans-04 p-lr-25">
+								Logout
+							</a>
+						<% } else { %>
+							<!-- Show "My Account" when not logged in -->
+							<a href="/user/login" class="flex-c-m trans-04 p-lr-25">
+								My Account
+							</a>
+						<% } %>
+
+						<a href="/user/userhome" class="flex-c-m trans-04 p-lr-25">
+							MY PROFILE
+						</a>
+            <a href="/user/user_logged" class="flex-c-m trans-04 p-lr-25">
+							MY HOME
+						</a>
+					</div>
+				</div>
+			</div></div>
+
+
+
+			<div class="wrap-menu-desktop how-shadow1">
+				<nav class="limiter-menu-desktop container">
+					
+					<!-- Logo desktop -->		
+					<a href="#" class="logo">
+						<h2 class="text-secondary"> <span>PINK</span>  MARTINI</h2>
+					</a>
+
+					<!-- Menu desktop -->
+					
+
+					<!-- Icon header -->
+					<div class="wrap-icon-header flex-w flex-r-m">
+						
+
+						<a href="/user/cart">
+							<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="<%= totalQuantity %>">
+								<i class="zmdi zmdi-shopping-cart"></i>
+							</div>
+						</a>
+							<a href="/user/getwishlist" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
+								<i class="zmdi zmdi-favorite-outline"></i>
+							</a>
+					</div>
+				</nav>
+			</div>	
+		</div>
+           
+			<!-- Header Mobile -->
+		<div class="wrap-header-mobile">
+			<!-- Logo moblie -->		
+			<div class="logo-mobile">
+				<h2 class="text-secondary"> <span>PINK</span>  MARTINI</h2>
+			</div>
+
+			<!-- Icon header -->
+			<div class="wrap-icon-header flex-w flex-r-m m-r-15">
+				<a href="/user/cart">
+					<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="<%= totalQuantity %>">
+						<i class="zmdi zmdi-shopping-cart"></i>
+					</div>
+				</a>
+					<a href="/user/getwishlist" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
+						<i class="zmdi zmdi-favorite-outline"></i>
+					</a>
+			</div>
+
+			<!-- Button show menu -->
+			<div class="btn-show-menu-mobile hamburger hamburger--squeeze">
+				<span class="hamburger-box">
+					<span class="hamburger-inner"></span>
+				</span>
+			</div>
+		</div>
+
+
+		<!-- Menu Mobile -->
+		<div class="menu-mobile">
+			<ul class="topbar-mobile">
+				<li>
+					<div class="left-top-bar">
+						Free shipping for standard order over RS 1000
+					</div>
+				</li>
+
+				<li>
+					<div class="right-top-bar flex-w h-full">
+						<% if (user) { %>
+							<!-- Show username when logged in -->
+							<a href="" class="flex-c-m trans-04 p-lr-25">
+								 Welcome <%= user.name %>
+							</a>
+							<a href="/user/logout" class="flex-c-m trans-04 p-lr-25">
+								Logout
+							</a>
+						<% } else { %>
+							<!-- Show "My Account" when not logged in -->
+							<a href="/user/login" class="flex-c-m trans-04 p-lr-25">
+								My Account
+							</a>
+						<% } %>
+
+						<a href="/user/userhome" class="flex-c-m trans-04 p-lr-25">
+							MY PROFILE
+						</a>
+            <a href="/user/user_logged" class="flex-c-m trans-04 p-lr-25">
+							MY HOME
+						</a>
+					</div>
+				</li>
+			</ul>
+
+			
+		</div>
+
+		<!-- Modal Search -->
+		<div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
+			<div class="container-search-header">
+				<button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
+					<img src="/assets/images/icons/icon-close2.png" alt="CLOSE">
+				</button>
+
+				<form class="wrap-search-header flex-w p-l-15">
+					<button class="flex-c-m trans-04">
+						<i class="zmdi zmdi-search"></i>
+					</button>
+					<input class="plh3" type="text" name="search" placeholder="Search...">
+				</form>
+			</div>
+		</div>
+	</header>
+
+
+
+  <!-- <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl fixed-start ms-4" id="sidenav-main" style="max-height: 80vh; overflow-y: auto; top: 150px; height: calc(100% - 100px);">
+    <div class="sidenav-header py-2">
+      <i class="fas fa-times p-2 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+      <a class="navbar-brand m-0" href="#" target="_blank">
+        <img src="/assets/img/logo-ct-dark.png" class="navbar-brand-img h-100" alt="main_logo" style="max-height: 25px;">
+        <span class="ms-1 font-weight-bold" style="font-size: 0.9em;">PINK MARTINI</span>
+      </a>
+    </div>
+    <hr class="horizontal dark my-1">
+    <div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active text-dark py-1" href="">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">MY ACCOUNT</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link py-1" href="/user/getAdress">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Address</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link py-1" href="/user/show_orders">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-app text-info text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Orders</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link py-1" href="/user/wallet">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-world-2 text-danger text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Wallet</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link py-1" href="">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-collection text-info text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Logout</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </aside> -->
+  <main class="main-content position-relative border-radius-lg">
+    <!-- Navbar -->
+    <br><br>
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="false" style="background-color: #f1f1f1; padding: 10px;">
+        <style>
+            .breadcrumb-nav {
+                
+                align-items: center;
+                
+            
+            }
+            .breadcrumb-nav h6 {
+                margin-right: auto;
+            }
+            .breadcrumb-nav .btn {
+                margin-left: 1200px;
+                margin-top: 1px;
+            }
+            .address-card {
+                background-color: #fff;
+                border: 1px solid #ddd;
+                border-radius: 10px;
+                padding: 20px;
+                margin-bottom: 20px;
+                margin-left: 200px;
+                margin-right: 200px;
+                position: relative;
+                transition: box-shadow 0.3s ease;
+            }
+            .address-card:hover {
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            }
+            .address-field {
+                margin-bottom: 10px;
+            }
+            .field-name {
+                font-weight: bold;
+                color: #333;
+            }
+            .field-value {
+                color: #666;
+            }
+            .address-toggle {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+            }
+            .address-toggle input[type="checkbox"] {
+                display: none;
+            }
+            .address-toggle label {
+                cursor: pointer;
+                padding: 5px 10px;
+                background-color: #f1f1f1;
+                border-radius: 15px;
+                transition: background-color 0.3s ease;
+            }
+            .address-toggle input[type="checkbox"]:checked + label {
+                background-color: #28a745;
+                color: white;
+            }
+            .address-toggle {
+                display: flex;
+                flex-direction: column; /* Stack items vertically */
+              }
+
+              /* Style for each child element within the address-toggle container */
+              .address-toggle input[type="checkbox"],
+              .address-toggle label,
+              .address-toggle button {
+                margin-bottom: 5px; /* Add margin to separate elements vertically */
+              }
+            
+        </style>
+        <div class="container-fluid py-1 px-3">
+            <nav aria-label="breadcrumb" class="breadcrumb-nav">
+                <h6 class="font-weight-bolder mb-0 text-dark" style="color: #333; font-size: 24px;">MY ADDRESSES</h6>
+                <a href="/user/addAdress"><button type="button" class="btn btn-dark">Add Address</button></a>
+            </nav>
+        </div>
+    </nav>
+
+    <div class="container-fluid py-4">
+        <% address.forEach((addres, index) => { %>
+            <div class="address-card">
+                <div class="address-toggle">
+                    <input type="checkbox" id="toggle-<%= index %>" name="address-select">
+                    <label for="toggle-<%= index %>">Select</label>
+                   <a href="/user/delete/<%=addres._id  %>"> <button type="button" class="btn btn-primary btn-sm mt-2" >Remove</button></a>
+                    
+                    <a href="/user/geteditAddress/<%=addres._id  %>"><button type="button" class="btn btn-primary btn-sm mt-2">Edit</button></a>
+
+                </div>
+                <div class="address-field">
+                    <span class="field-name">Name:</span>
+                    <span class="field-value"><%= addres.name %></span>
+                </div>
+                <div class="address-field">
+                    <span class="field-name">Phone Number:</span>
+                    <span class="field-value"><%= addres.phoneNumber %></span>
+                </div>
+                <div class="address-field">
+                    <span class="field-name">Email:</span>
+                    <span class="field-value"><%= addres.email %></span>
+                </div>
+                <div class="address-field">
+                    <span class="field-name">Address:</span>
+                    <span class="field-value"><%= addres.address %></span>
+                </div>
+                <div class="address-field">
+                    <span class="field-name">Locality:</span>
+                    <span class="field-value"><%= addres.locality %></span>
+                </div>
+                <div class="address-field">
+                    <span class="field-name">Pin Code:</span>
+                    <span class="field-value"><%= addres.pinCode %></span>
+                </div>
+                <div class="address-field">
+                    <span class="field-name">Additional Info:</span>
+                    <span class="field-value"><%= addres.additionalInfo %></span>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+</main>
+    
+    
+  
+      <footer class="footer pt-3  ">
+        
+      </footer>
+     
+    </div>
+  </main>
+
+<footer class="bg3 p-t-75 p-b-32">
+		<div class="container">
+			<div class="row justify-content-between">
+				<div class="col-sm-6 col-lg-3 p-b-50">
+					<h4 class="stext-301 cl0 p-b-30">
+						Categories
+					</h4>
+					<ul>
+						<% category.forEach(function(category) { %>
+							<li class="p-b-10">
+								<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+									<%= category.name %>
+								</a>
+							</li>
+						<% }); %>
+					</ul>
+				</div>
+		
+				<div class="col-sm-6 col-lg-4 p-b-50 order-lg-3 p-2 ">
+					<h4 class="stext-301 cl0 p-b-30">
+						Newsletter
+					</h4>
+					<form>
+						<div class="wrap-input1 w-full p-b-4">
+							<input class="input1 bg-none plh1 stext-107 cl7" type="text" name="email" placeholder="pinkmartini@gmail.com">
+							<div class="focus-input1 trans-04"></div>
+						</div>
+						<div class="p-t-18">
+							<button class="flex-c-m stext-101 cl0 size-103 bg1 bor1 hov-btn2 p-lr-15 trans-04">
+								Subscribe
+							</button>
+						</div>
+					</form>
+				</div>
+		
+				<div class="col-sm-6 col-lg-3 p-b-50 mx-auto order-lg-2">
+					<h4 class="stext-301 cl0 p-b-30">
+						GET IN TOUCH
+					</h4>
+					<p class="stext-107 cl7 size-201">
+						Any questions? Let us know in store at 2nd floor kalpetta, wayanad :+919562687807
+					</p>
+				</div>
+			</div>
+		
+			<div class="p-t-40">
+				<div class="flex-c-m flex-w p-b-18">
+					<a href="#" class="m-all-1">
+						<img src="/assets/images/icons/icon-pay-01.png" alt="ICON-PAY">
+					</a>
+					<a href="#" class="m-all-1">
+						<img src="/assets/images/icons/icon-pay-02.png" alt="ICON-PAY">
+					</a>
+					<a href="#" class="m-all-1">
+						<img src="/assets/images/icons/icon-pay-03.png" alt="ICON-PAY">
+					</a>
+					<a href="#" class="m-all-1">
+						<img src="/assets/images/icons/icon-pay-04.png" alt="ICON-PAY">
+					</a>
+					<a href="#" class="m-all-1">
+						<img src="/assets/images/icons/icon-pay-05.png" alt="ICON-PAY">
+					</a>
+				</div>
+				<p class="stext-107 cl6 txt-center">
+					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+					Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">TECHFINIT GLOBAL</a> &amp; distributed by <a href="https://themewagon.com" target="_blank">PINK MARTINI</a>
+					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+				</p>
+			</div>
+		</div>
+	</footer>
+
+<script src="/assets/js/core/popper.min.js"></script>
+<script src="/assets/js/core/bootstrap.min.js"></script>
+<script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
+<script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+<script src="/assets/js/plugins/chartjs.min.js"></script>
+
+
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<script src="/assets/js/argon-dashboard.min.js?v=2.0.4"></script>
+<%- include('footer')-%>

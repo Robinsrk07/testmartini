@@ -1,0 +1,189 @@
+<%- include('header')-%>
+     
+       
+        
+      <main class="main-content position-relative border-radius-lg">
+        <!-- Navbar -->
+        <br><br>
+        <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="false" style="background-color: #f1f1f1; padding: 10px;">
+            <style>.breadcrumb-nav {
+                display: flex;
+                align-items: center;  /* This will vertically center the items */
+            }
+            
+            .breadcrumb-nav h6 {
+                margin-right: auto;  /* This pushes the button to the right */
+            }
+            
+            .breadcrumb-nav .btn {
+                margin-left: 700px; 
+                margin-top: 10px; /* Add some space between the text and the button, if needed */
+            }
+            </style>
+            
+        </nav>
+        
+        <div class="container-fluid py-1 px-4" style="margin-left: 200px;">
+                
+            <div class="row">
+                <div class="col-md-8 mb-4">
+                  <div class="card mb-4">
+                    <div class="card-header py-3">
+                      <h5 class="mb-0">Biling details</h5>
+                    </div>
+                    <div class="card-body">
+                      <form id="billingForm">
+                        <input type="hidden" id="addressId" value="<%= address._id %>" />
+                      
+                        <div class="row mb-4">
+                          <div class="col">
+                            <div data-mdb-input-init class="form-outline">
+                              <input type="text" id="name" class="form-control" value="<%= address.name %>" required />
+                              <label class="form-label" for="name">Name</label>
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div data-mdb-input-init class="form-outline">
+                              <input type="tel" id="phone" class="form-control" value="<%= address.phoneNumber %>" required pattern="[0-9]{10}" />
+                              <label class="form-label" for="phone">Phone number</label>
+                            </div>
+                          </div>
+                        </div>
+                      
+                        <div data-mdb-input-init class="form-outline mb-4">
+                          <input type="email" id="Email" class="form-control" value="<%= address.email %>" required />
+                          <label class="form-label" for="Email">Email</label>
+                        </div>
+                      
+                        <div data-mdb-input-init class="form-outline mb-4">
+                          <input type="text" id="Adress" class="form-control" value="<%= address.address %>" required />
+                          <label class="form-label" for="Adress">Address</label>
+                        </div>
+                      
+                        <div data-mdb-input-init class="form-outline mb-4">
+                          <input type="text" id="Locality" class="form-control" value="<%= address.locality %>" required />
+                          <label class="form-label" for="Locality">Locality</label>
+                        </div>
+                      
+                        <div data-mdb-input-init class="form-outline mb-4">
+                          <input type="text" id="Pincode" class="form-control" value="<%= address.pinCode %>" required pattern="[0-9]{6}" />
+                          <label class="form-label" for="Pincode">Pin code</label>
+                        </div>
+                      
+                        <div data-mdb-input-init class="form-outline mb-4">
+                          <textarea class="form-control" id="extra" rows="4"><%= address.additionalInfo %></textarea>
+                          <label class="form-label" for="extra">Additional information</label>
+                        </div>
+                      
+                        <button type="submit" class="btn btn-dark">Proceed</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              
+               
+              </div> 
+        </div>
+      
+          <footer class="footer pt-3  ">
+            
+          </footer>
+        </div>
+      </main>
+     
+           
+          
+          </div>
+        </div>
+      </div>
+      <script>
+        document.getElementById('billingForm').addEventListener('submit', function(e) {
+          e.preventDefault();
+        
+          // Perform custom validation
+          if (!validateForm()) {
+            return;
+          }
+        
+          const formData = {
+            addressId: document.getElementById('addressId').value,
+            name: document.getElementById('name').value,
+            phone: document.getElementById('phone').value,
+            email: document.getElementById('Email').value,
+            address: document.getElementById('Adress').value,
+            locality: document.getElementById('Locality').value,
+            pinCode: document.getElementById('Pincode').value,
+            additionalInfo: document.getElementById('extra').value
+          };
+        
+          fetch('/user/editAddress', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              window.location.href = '/user/getAdress'; // Redirect to address showing page
+            } else {
+              alert('Error saving address. Please try again.');
+            }
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+          });
+        });
+        
+        function validateForm() {
+          const name = document.getElementById('name').value.trim();
+          const phone = document.getElementById('phone').value.trim();
+          const email = document.getElementById('Email').value.trim();
+          const address = document.getElementById('Adress').value.trim();
+          const locality = document.getElementById('Locality').value.trim();
+          const pinCode = document.getElementById('Pincode').value.trim();
+        
+          if (name === '') {
+            alert('Please enter your name.');
+            return false;
+          }
+        
+          if (phone === '' || !/^[0-9]{10}$/.test(phone)) {
+            alert('Please enter a valid 10-digit phone number.');
+            return false;
+          }
+        
+          if (email === '' || !/\S+@\S+\.\S+/.test(email)) {
+            alert('Please enter a valid email address.');
+            return false;
+          }
+        
+          if (address === '') {
+            alert('Please enter your address.');
+            return false;
+          }
+        
+          if (locality === '') {
+            alert('Please enter your locality.');
+            return false;
+          }
+        
+          if (pinCode === '' || !/^[0-9]{6}$/.test(pinCode)) {
+            alert('Please enter a valid 6-digit pin code.');
+            return false;
+          }
+        
+          return true;
+        }
+        </script>
+      <!--   Core JS Files   -->
+      <script src="/assets/js/core/popper.min.js"></script>
+      <script src="/assets/js/core/bootstrap.min.js"></script>
+      <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
+      <script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+      <script src="/assets/js/plugins/chartjs.min.js"></script>
+      
+    
+      <%- include('footer')-%>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add New Coupon</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: hsl(180, 100%, 100%);
+    }
+    .container {
+      max-width: 600px;
+      margin-top: 50px;
+    }
+    .form-group label {
+      color: hwb(0 5% 95%);
+    }
+    .form-control {
+      border: 1px solid #000000;
+    }
+    .btn-primary {
+      background-color: #000000;
+      border: none;
+    }
+    .btn-primary:hover {
+      background-color: #ffe6f0;
+    }
+    h1 {
+      color: #060405;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Add New Coupon</h1>
+    
+    <form id="couponForm" action="/admin/addcoupon" method="POST">
+      <div class="form-group">
+        <label for="code">Coupon Code</label>
+        <input type="text" class="form-control" id="code" name="code" required pattern="^[a-zA-Z0-9]+$">
+        <small class="form-text text-muted">Only letters and numbers, no spaces.</small>
+      </div>
+      
+      <div class="form-group">
+        <label for="discountValue">Discount Value</label>
+        <input type="number" class="form-control" id="discountValue" name="discountValue" required min="0">
+      </div>
+      
+      <div class="form-group">
+        <label for="targetValue">Target Value</label>
+        <input type="number" class="form-control" id="targetValue" name="targetValue" required min="0">
+      </div>
+      
+      <div class="form-group">
+        <label for="minPurchaseValue">Minimum Purchase Value</label>
+        <input type="number" class="form-control" id="minPurchaseValue" name="minPurchaseValue" required min="0">
+      </div>
+      
+      <div class="form-group">
+        <label for="validFrom">Valid From</label>
+        <input type="date" class="form-control" id="validFrom" name="validFrom" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="validTo">Valid To</label>
+        <input type="date" class="form-control" id="validTo" name="validTo" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="isActive">Active</label>
+        <select class="form-control" id="isActive" name="isActive">
+          <option value="true">Yes</option>
+          <option value="false">No</option>
+        </select>
+      </div>
+      
+      <button type="submit" class="btn btn-primary btn-block">Add Coupon</button>
+    </form>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('couponForm');
+      const validFromInput = document.getElementById('validFrom');
+      const validToInput = document.getElementById('validTo');
+
+      // Set min date for validFrom to today
+      const today = new Date().toISOString().split('T')[0];
+      validFromInput.min = today;
+
+      validFromInput.addEventListener('change', function() {
+        // Set min date for validTo to validFrom
+        validToInput.min = this.value;
+      });
+
+      form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const code = document.getElementById('code').value;
+        const discountValue = parseFloat(document.getElementById('discountValue').value);
+        const targetValue = parseFloat(document.getElementById('targetValue').value);
+        const minPurchaseValue = parseFloat(document.getElementById('minPurchaseValue').value);
+        const validFrom = new Date(validFromInput.value);
+        const validTo = new Date(validToInput.value);
+
+        if (!/^[a-zA-Z0-9]+$/.test(code)) {
+          alert('Coupon code must contain only letters and numbers, no spaces.');
+          return;
+        }
+
+        if (discountValue < 0 || targetValue < 0 || minPurchaseValue < 0) {
+          alert('Discount, target, and minimum purchase values must be non-negative.');
+          return;
+        }
+
+        if (validFrom > validTo) {
+          alert('Valid To date must be after Valid From date.');
+          return;
+        }
+
+        // If all validations pass, submit the form
+        this.submit();
+      });
+    });
+  </script>
+</body>
+</html>

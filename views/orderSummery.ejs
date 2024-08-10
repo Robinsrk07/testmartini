@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Shoping Cart</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="/assets/images/icons/favicon.png"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/assets/vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/assets/fonts/iconic/css/material-design-iconic-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/assets/fonts/linearicons-v1.0.0/icon-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/assets/vendor/animate/animate.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="/assets/vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/assets/vendor/animsition/css/animsition.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/assets/vendor/select2/select2.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/assets/vendor/perfect-scrollbar/perfect-scrollbar.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/assets/css/util.css">
+	<link rel="stylesheet" type="text/css" href="/assets/css/main.css">
+<!--===============================================================================================-->
+
+</head>
+<body class="animsition">
+	
+	<!-- Header -->
+	<header class="header-v4">
+		<!-- Header desktop -->
+		<div class="container-menu-desktop">
+			<!-- Topbar -->
+			<div class="top-bar">
+				<div class="content-topbar flex-sb-m h-full container">
+					<div class="left-top-bar">
+						Free shipping for standard order over RS 1000/-
+					</div>
+
+					<div class="right-top-bar flex-w h-full">
+						<% if (user) { %>
+							<!-- Show username when logged in -->
+							<a href="" class="flex-c-m trans-04 p-lr-25">
+								 Welcome <%= user.name %>
+							</a>
+							<a href="/user/logout" class="flex-c-m trans-04 p-lr-25">
+								Logout
+							</a>
+						<% } else { %>
+							<!-- Show "My Account" when not logged in -->
+							<a href="/user/login" class="flex-c-m trans-04 p-lr-25">
+								My Account
+							</a>
+						<% } %>
+
+						<a href="/user/userhome" class="flex-c-m trans-04 p-lr-25">
+							MY PROFILE
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="wrap-menu-desktop how-shadow1">
+				<nav class="limiter-menu-desktop container">
+					
+					<!-- Logo desktop -->		
+					<a href="#" class="logo">
+						<h2 class="text-secondary"> <span>PINK</span>  MARTINI</h2>
+					</a>
+
+					<!-- Menu desktop -->
+					<div class="menu-desktop">
+						<ul class="main-menu">
+						
+						</ul>
+					</div>	
+
+					<!-- Icon header -->
+					<div class="wrap-icon-header flex-w flex-r-m">
+						<a href="/user/cart">
+							<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="<%= totalQuantity %>">
+								<i class="zmdi zmdi-shopping-cart"></i>
+							</div>
+						</a>
+							<a href="/user/getwishlist" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
+								<i class="zmdi zmdi-favorite-outline"></i>
+							</a>
+					</div>
+				</nav>
+			</div>	
+		</div>
+
+		<!-- Header Mobile -->
+		<div class="wrap-header-mobile">
+			<!-- Logo moblie -->		
+			<div class="logo-mobile">
+				<h2 class="text-secondary"> <span>PINK</span>  MARTINI</h2>
+			</div>
+
+			<!-- Icon header -->
+			<div class="wrap-icon-header flex-w flex-r-m m-r-15">
+				<a href="/user/cart">
+					<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="<%= totalQuantity %>">
+						<i class="zmdi zmdi-shopping-cart"></i>
+					</div>
+				</a>
+					<a href="/user/getwishlist" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
+						<i class="zmdi zmdi-favorite-outline"></i>
+					</a>
+			</div>
+
+			<!-- Button show menu -->
+			<div class="btn-show-menu-mobile hamburger hamburger--squeeze">
+				<span class="hamburger-box">
+					<span class="hamburger-inner"></span>
+				</span>
+			</div>
+		</div>
+
+
+		<!-- Menu Mobile -->
+		<div class="menu-mobile">
+			<ul class="topbar-mobile">
+				<li>
+					<div class="left-top-bar">
+						Free shipping for standard order over  RS 1000/-
+					</div>
+				</li>
+
+				<li>
+					<div class="right-top-bar flex-w h-full">
+						<% if (user) { %>
+							<!-- Show username when logged in -->
+							<a href="" class="flex-c-m trans-04 p-lr-25">
+								 Welcome <%= user.name %>
+							</a>
+							<a href="/user/logout" class="flex-c-m trans-04 p-lr-25">
+								Logout
+							</a>
+						<% } else { %>
+							<!-- Show "My Account" when not logged in -->
+							<a href="/user/login" class="flex-c-m trans-04 p-lr-25">
+								My Account
+							</a>
+						<% } %>
+
+						<a href="/user/userhome" class="flex-c-m trans-04 p-lr-25">
+							MY PROFILE
+						</a>
+					</div>
+				</li>
+			</ul>
+
+			<ul class="main-menu-m">
+				<li>
+					<a href="/user/user_logged">Home</a>
+					
+					
+				
+			</ul>
+		</div>
+
+		<!-- Modal Search -->
+		<div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
+			<div class="container-search-header">
+				<button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
+					<img src="/assets/images/icons/icon-close2.png" alt="CLOSE">
+				</button>
+
+				<form class="wrap-search-header flex-w p-l-15">
+					<button class="flex-c-m trans-04">
+						<i class="zmdi zmdi-search"></i>
+					</button>
+					<input class="plh3" type="text" name="search" placeholder="Search...">
+				</form>
+			</div>
+		</div>
+	</header>
+
+	<!-- Cart -->
+	
+
+
+	<!-- breadcrumb -->
+	<div class="container">
+		<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
+			<a href="/user/user_logged" class="stext-109 cl8 hov-cl1 trans-04">
+				Home
+				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+			</a>
+
+			<span class="stext-109 cl4">
+				order summury
+			</span>
+		</div>
+	</div>
+		
+
+	<!-- Shoping Cart -->
+	<form class="bg0 p-t-75 p-b-85">
+		<div class="container">
+			<div class="row">
+				<!-- Left column (existing cart items) -->
+				<div class="col-lg-7 col-xl-7 m-lr-auto m-b-50" style="margin-left: -33px;">
+					<div class="m-l-25 m-r--38 m-lr-0-xl">
+						<div class="wrap-table-shopping-cart">
+							<% if (cart && cart.items && cart.items.length > 0) { %>
+								<style>
+									.table-shopping-cart {
+										width: 100%;
+										border-collapse: collapse;
+										margin-right: 10px;
+									
+									}
+									.table-shopping-cart th,
+									.table-shopping-cart td {
+										padding: 15px;
+										text-align: left;
+										border-bottom: 1px solid #ddd;
+									}
+									.table-shopping-cart th {
+										background-color: #f4f4f4;
+										font-weight: bold;
+									}
+									.table-shopping-cart td {
+										vertical-align: middle;
+									}
+									.table-shopping-cart .column-1 img {
+										width: 100px;
+										height: auto;
+										border-radius: 5px;
+									}
+									.table-shopping-cart .column-2 {
+										font-size: 16px;
+										font-weight: 500;
+									}
+									.table-shopping-cart .column-3,
+									.table-shopping-cart .column-4 {
+										text-align: right;
+									}
+									.table-shopping-cart .column-3 {
+										color: #333;
+									}
+									.table-shopping-cart .column-4 {
+										font-weight: 600;
+									}
+									.table-shopping-cart .table_row:hover {
+										background-color: #f9f9f9;
+									}
+								
+									.coupon-strips-container {
+        margin-top: 20px;
+        border-top: 1px solid #e0e0e0;
+        padding-top: 20px;
+    }
+
+    .coupon-strips-container h4 {
+        margin-bottom: 15px;
+        color: #333;
+    }
+
+    .coupon-strip {
+        display: flex;
+        align-items: center;
+        background-color: #f8f8f8;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        padding: 10px;
+        margin-bottom: 10px;
+        transition: box-shadow 0.3s ease;
+    }
+
+    .coupon-strip:hover {
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .coupon-code {
+        font-weight: bold;
+        font-size: 1.1em;
+        color: #e47911;
+        padding: 5px 10px;
+        border: 2px dashed #e47911;
+        border-radius: 4px;
+        margin-right: 15px;
+    }
+
+    .coupon-details {
+        flex-grow: 1;
+    }
+
+    .discount-value {
+        font-weight: bold;
+        color: #111;
+        margin-right: 10px;
+    }
+
+    .min-purchase {
+        font-size: 0.9em;
+        color: #555;
+    }
+
+    .apply-coupon {
+        background-color: #ffd814;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 15px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .apply-coupon:hover {
+        background-color: #f7ca00;
+    }
+
+								</style>
+								
+								<table class="table-shopping-cart">
+									<thead>
+										<tr class="table_head">
+											<th class="column-1">Product</th>
+											<th class="column-2">Description</th>
+											<th class="column-3">Price</th>
+											<th class="column-4">Quantity</th>
+										</tr>
+									</thead>
+									<tbody>
+										<% cart.items.forEach(function(item) { %>
+										<tr class="table_row">
+											<td class="column-1">
+												<div class="how-itemcart1">
+													<img src="<%= item.product.variants[item.variantIndex].images[0].imageBase64 %>" alt="Product Image">
+												</div>
+											</td>
+											<td class="column-2">
+												<%= item.product.title %> <br>
+												<span style="font-size: 14px; color: #777;"><%= item.colour.name %>, <%= item.size.name %></span>
+											</td>
+											<td class="column-3">RS. <%= item.product.variants[item.variantIndex].price.toFixed(2) %></td>
+											<td class="column-4">
+												<%= item.quantity %>
+											</td>
+										</tr>
+										<% }); %>
+									</tbody>
+								</table>
+								
+                                <% } else { %>
+                                <p>Your cart is empty.</p>
+                                <% } %>
+                                
+						</div>
+						
+						
+						<!-- <button id="update-cart-btn">Update Cart</button> -->
+	
+						<div class="flex-w flex-m m-r-20 m-tb-5">
+							<input class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5" type="text" id="couponInput" name="coupon" placeholder="Coupon Code">
+							<div class="flex-c-m stext-101 cl2 size-118 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5" onclick="applyCoupon()">
+								Apply coupon
+							</div>
+							<div id="removeCouponBtn" style="display: none;" class="flex-c-m stext-101 cl2 size-118 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5"onclick="removeCoupon()">
+								Remove coupon
+							</div>
+						</div>
+						<div id="couponMessage"></div>
+					</div>
+				</div>
+				
+				<!-- Right column (cart totals) -->
+				<div class="col-lg-5 col-xl-5 m-lr-auto m-b-50" style="margin-right: -10px;">
+					<div class="card shadow-sm">
+						<div class="card-body">
+							<h4 class="card-title mb-4">DELIVERY ADDRESS</h4>
+							<div class="address-card mb-4">
+								<div class="row">
+									<div class="col-sm-6 mb-2">
+										<strong>Name:</strong> <%= address.name %>
+									</div>
+									<div class="col-sm-6 mb-2">
+										<strong>Phone:</strong> <%= address.phoneNumber %>
+									</div>
+									<div class="col-sm-6 mb-2">
+										<strong>Email:</strong> <%= address.email %>
+									</div>
+									<div class="col-sm-6 mb-2">
+										<strong>Pin Code:</strong> <%= address.pinCode %>
+									</div>
+									<div class="col-12 mb-2">
+										<strong>Address:</strong> <%= address.address %>
+									</div>
+									<div class="col-12 mb-2">
+										<strong>Locality:</strong> <%= address.locality %>
+									</div>
+									<div class="col-12">
+										<strong>Additional Info:</strong> <%= address.additionalInfo %>
+									</div>
+								</div>
+							</div>
+				
+							<h4 class="card-title mb-4">Order Summary</h4>
+							<div class="table-responsive">
+								<table class="table">
+									<tr>
+										<td>Price:</td>
+										<td class="text-right" id="originalPrice">₹ <%= Math.round(price) %></td>
+									</tr>
+									<tr>
+										<td>Discount Price:</td>
+										<td class="text-right text-success" id="discountPrice">₹ <%= Math.round(total) %></td>
+									</tr>
+									<tr>
+										<td>Coupon Applied:</td>
+										<td class="text-right" id="couponApplied"></td>
+									</tr>
+									<tr>
+										<td>Delivery Charge:</td>
+										<td class="text-right" id="deliveryCharge">-</td>
+									</tr>
+									<tr class="font-weight-bold">
+										<td>Total Payable:</td>
+										<td class="text-right" id="totalPayable" data-initial-total="<%= Math.round(total) %>">₹ <%= Math.round(total) %></td>
+									</tr>
+								</table>
+							</div>
+				
+							<div class="mt-4">
+								<h5 style="padding-bottom: 10px;">Payment Method</h5>
+								<div class="form-check mb-2" id="cashOnDeliveryOption" style="padding-left: 20px;">
+									<input class="form-check-input" type="radio" name="paymentMethod" id="cashOnDelivery" value="cashOnDelivery" checked>
+									<label class="form-check-label" for="cashOnDelivery">Cash on Delivery</label>
+								</div>
+								<div class="form-check mb-2" style="padding-left: 20px;">
+									<input class="form-check-input" type="radio" name="paymentMethod" id="upi" value="upi">
+									<label class="form-check-label" for="upi">UPI</label>
+								</div>
+								<div class="form-check mb-2" style="padding-left: 20px;">
+									<input class="form-check-input" type="radio" name="paymentMethod" id="wallet" value="wallet">
+									<label class="form-check-label" for="wallet">WALLET</label>
+								</div>
+							</div>
+				
+							<div id="cashOnDeliveryMessage" class="alert alert-warning mt-3" style="display: none;">
+								Cash on Delivery not applicable for orders over ₹1000.
+							</div>
+							<div id="deliveryChargeMessage" class="alert alert-info mt-3" style="display: none;">
+								Delivery charge of ₹100 applied for orders under ₹1000.
+							</div>
+							<div id="freeDeliveryMessage" class="alert alert-success mt-3" style="display: none;">
+								Free delivery for orders over ₹1000!
+							</div>
+							<div class="coupon-strips-container">
+					
+								<% activeCoupons.forEach(coupon => { %>
+									<div class="coupon-strip">
+										<div class="coupon-code"><%= coupon.code %></div>
+										<div class="coupon-details">
+											<span class="discount-value">₹<%= coupon.discountValue %> OFF</span>
+											<span class="min-purchase">on orders above ₹<%= coupon.minPurchaseValue %></span>
+										</div>
+									</div>
+								<% }) %>
+							</div>
+							<div class="mt-4">
+								<button onclick="confirmOrder(event)" class="btn btn-primary btn-lg btn-block">
+									Place Order
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<script>
+				document.addEventListener('DOMContentLoaded', function() {
+					const totalPayable = document.getElementById('totalPayable');
+					const cashOnDeliveryOption = document.getElementById('cashOnDeliveryOption');
+					const cashOnDeliveryMessage = document.getElementById('cashOnDeliveryMessage');
+					const deliveryChargeMessage = document.getElementById('deliveryChargeMessage');
+					const freeDeliveryMessage = document.getElementById('freeDeliveryMessage');
+					const paymentMethods = document.getElementsByName('paymentMethod');
+					const deliveryChargeElement = document.getElementById('deliveryCharge');
+				
+					function updatePaymentOptions() {
+						let total = parseFloat(totalPayable.getAttribute('data-initial-total'));
+						const deliveryCharge = total < 1000 ? 100 : 0;
+				
+						if (total < 1000) {
+							total += deliveryCharge;
+							deliveryChargeMessage.style.display = 'block';
+							freeDeliveryMessage.style.display = 'none';
+							deliveryChargeElement.textContent = '₹ ' + deliveryCharge;
+						} else {
+							deliveryChargeMessage.style.display = 'none';
+							freeDeliveryMessage.style.display = 'block';
+							deliveryChargeElement.textContent = 'Free';
+						}
+				
+						if (total > 1000) {
+							cashOnDeliveryOption.style.display = 'none';
+							cashOnDeliveryMessage.style.display = 'block';
+							paymentMethods[1].checked = true;
+						} else {
+							cashOnDeliveryOption.style.display = 'block';
+							cashOnDeliveryMessage.style.display = 'none';
+						}
+				
+						totalPayable.textContent = '₹ ' + total.toFixed(2);
+						totalPayable.setAttribute('data-initial-total', total.toFixed(2));
+					}
+				
+					updatePaymentOptions();
+				});
+				
+                                  function confirmOrder(event) {
+													event.preventDefault();
+
+													const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+													const addressId = '<%= address._id %>';
+													const couponAppliedElement = document.getElementById('couponApplied');
+													const totalPayableElement = document.getElementById('totalPayable');
+													const couponDiscount = couponAppliedElement.textContent.trim() ? couponAppliedElement.textContent.trim().replace('RS. ', '') : 0;
+													const totalPayable = totalPayableElement.textContent.trim() ? totalPayableElement.textContent.trim().replace('RS. ', '') : '<%= total %>';
+
+													const orderData = {
+														addressId,
+														paymentMethod,
+														total: totalPayable,
+														couponDiscount: couponDiscount || 0 
+													};
+													if (paymentMethod === 'wallet') {
+        // Check wallet balance first
+														fetch('/user/walletBalance')
+															.then(response => response.json())
+															.then(data => {
+																if (data.balance >= totalPayable) {
+																	// Sufficient balance, proceed with wallet payment
+																	proceedWithWalletPayment(orderData);
+																} else {
+																	// Insufficient balance, show sweet alert
+																	Swal.fire({
+																		icon: 'error',
+																		title: 'Insufficient Balance',
+																		text: 'Your wallet balance is not enough for this purchase.',
+																		confirmButtonText: 'OK'
+																	});
+																}
+															})
+															.catch(error => {
+																console.error('Error checking wallet balance:', error);
+																Swal.fire({
+																	icon: 'error',
+																	title: 'Error',
+																	text: 'An error occurred while checking your wallet balance.',
+																	confirmButtonText: 'OK'
+																});
+															})
+												} else if (paymentMethod === 'upi') {
+													// Existing UPI payment logic
+													fetch('/user/createOrder', {
+														method: 'POST',
+														headers: {
+															'Content-Type': 'application/json',
+														},
+														body: JSON.stringify(orderData)
+													})
+													.then(response => response.json())
+													.then(data => {
+														console.log('Server response:', data);
+														if (data.success) {
+															const options = {
+																key: data.key,
+																amount: data.order.amount,
+																currency: data.order.currency,
+																name: "pink martini",
+																description: "Order Payment",
+																order_id: data.order.id,
+																handler: function (response) {
+																	verifyPayment(response);
+																},
+																modal: {
+																	ondismiss: function() {
+																		window.location.href = '/user/paymentFail';
+																	}
+																},
+																theme: {
+																	color: "#3399cc"
+																}
+															};
+
+															const rzp1 = new Razorpay(options);
+															rzp1.on('payment.failed', function (response){
+																window.location.href = '/user/paymentFail';
+															});
+															rzp1.open();
+														} else {
+															console.error('Order creation failed:', data.message);
+															alert('Failed to create Razorpay order: ' + data.message);
+														}
+													})
+													.catch(error => {
+														console.error('Error creating order:', error);
+														alert('An error occurred while creating the Razorpay order: ' + error.message);
+														window.location.href = '/user/paymentFail';
+													});
+												} else {
+													// Other payment methods (including COD)
+													proceedWithOrder(orderData);
+												}
+
+												function proceedWithWalletPayment(orderData) {
+													fetch('/user/createOrder', {
+														method: 'POST',
+														headers: {
+															'Content-Type': 'application/json',
+														},
+														body: JSON.stringify(orderData)
+													})
+													.then(response => response.json())
+													.then(data => {
+														if (data.success) {
+															window.location.href = '/user/orderSucces';
+														} else {
+															Swal.fire({
+																icon: 'error',
+																title: 'Order Failed',
+																text: data.message || 'Failed to place the order',
+																confirmButtonText: 'OK'
+															}).then(() => {
+																window.location.href = '/user/cancelled';
+															});
+														}
+													})
+													.catch(error => {
+														console.error('Error:', error);
+														Swal.fire({
+															icon: 'error',
+															title: 'Error',
+															text: 'An error occurred while placing the order',
+															confirmButtonText: 'OK'
+														});
+													});
+												}
+
+												function proceedWithOrder(orderData) {
+													fetch('/user/createOrder', {
+														method: 'POST',
+														headers: {
+															'Content-Type': 'application/json',
+														},
+														body: JSON.stringify(orderData)
+													})
+													.then(response => response.json())
+													.then(data => {
+														if (data.success) {
+															window.location.href = '/user/orderSucces';
+														} else {
+															Swal.fire({
+																icon: 'error',
+																title: 'Order Failed',
+																text: 'Failed to place the order',
+																confirmButtonText: 'OK'
+															}).then(() => {
+																window.location.href = '/user/cancelled';
+															});
+														}
+													})
+													.catch(error => {
+														console.error('Error:', error);
+														Swal.fire({
+															icon: 'error',
+															title: 'Error',
+															text: 'An error occurred while placing the order',
+															confirmButtonText: 'OK'
+														});
+													});
+													}}
+											
+												function verifyPayment(response) {
+												fetch('/user/verifyPayment', {
+													method: 'POST',
+													headers: {
+														'Content-Type': 'application/json',
+													},
+													body: JSON.stringify(response)
+												})
+												.then(res => res.json())
+												.then(data => {
+													if (data.success) {
+														window.location.href = '/user/orderSucces';
+													} else {
+														// Payment verification failed, redirect to payment failed page
+														window.location.href = '/user/paymentFail';
+													}
+												})
+												.catch(error => {
+													console.error('Error:', error);
+													// An error occurred, redirect to payment failed page
+													window.location.href = '/user/paymentFail';
+												});
+											}
+
+
+
+
+
+														function reverifyPayment(razorpay_order_id, razorpay_payment_id, razorpay_signature) {
+															fetch(`/user/verify-Payment?razorpay_order_id=${razorpay_order_id}&razorpay_payment_id=${razorpay_payment_id}&razorpay_signature=${razorpay_signature}`, {
+																method: 'GET',
+																headers: {
+																	'Content-Type': 'application/json',
+																},
+															})
+															.then(response => response.json())
+															.then(data => {
+																if (data.redirect) {
+																	window.location.href = data.redirect;
+																} else {
+																	// Handle the response without redirection
+																	console.log(data.message);
+																}
+															})
+															.catch(error => {
+																console.error('Error:', error);
+																// Optionally redirect to an error page
+																// window.location.href = '/error';
+															});
+														}
+
+
+											               	function initializeTotalPayable() {
+																const totalPayableElement = document.getElementById('totalPayable');
+																if (totalPayableElement) {
+																	const initialTotal = totalPayableElement.getAttribute('data-initial-total');
+																	totalPayableElement.textContent = `       RS. ${initialTotal}`;
+																}
+															}
+
+															function applyCoupon() {
+																const couponCode = document.getElementById('couponInput').value;
+																const couponMessageElement = document.getElementById('couponMessage');
+																const totalPayableElement = document.getElementById('totalPayable');
+																const initialTotal = totalPayableElement.getAttribute('data-initial-total');
+
+																if (!couponCode) {
+																	setMessageWithTimeout(couponMessageElement, 'Please enter a coupon code.');
+																	return;
+																}
+
+																fetch('/user/apply-coupon', {
+																	method: 'POST',
+																	headers: {
+																		'Content-Type': 'application/json'
+																	},
+																	body: JSON.stringify({ couponCode })
+																})
+																.then(response => response.json())
+																.then(data => {
+																	if (data.success) {
+																		setMessageWithTimeout(couponMessageElement, 'Coupon applied successfully');
+																		
+																		// Update the coupon applied amount
+																		document.getElementById('couponApplied').textContent = `       RS. ${data.appliedDiscount}`;
+																		
+																		// Update the total payable amount
+																		totalPayableElement.textContent = `       RS. ${data.discountedTotal || initialTotal}`;
+
+																		// Show remove coupon button
+																		document.getElementById('removeCouponBtn').style.display = 'block';
+																	} else {
+																		setMessageWithTimeout(couponMessageElement, data.message || 'Failed to apply coupon');
+																		// If coupon application fails, reset to initial state
+																		totalPayableElement.textContent = `       RS. ${initialTotal}`;
+																	}
+																})
+																.catch(error => {
+																	console.error('Error:', error);
+																	setMessageWithTimeout(couponMessageElement, 'An error occurred. Please try again.');
+																	// If there's an error, reset to initial state
+																	totalPayableElement.textContent = `       RS. ${initialTotal}`;
+																});
+															}
+
+															function removeCoupon() {
+																const totalPayableElement = document.getElementById('totalPayable');
+																const initialTotal = totalPayableElement.getAttribute('data-initial-total');
+
+																fetch('/user/remove-coupon', {
+																	method: 'POST',
+																	headers: {
+																		'Content-Type': 'application/json'
+																	}
+																})
+																.then(response => response.json())
+																.then(data => {
+																	if (data.success) {
+																		document.getElementById('couponApplied').textContent = '';
+																		totalPayableElement.textContent = `       RS. ${initialTotal}`;
+																		document.getElementById('removeCouponBtn').style.display = 'none';
+																		document.getElementById('couponInput').value = '';
+																		setMessageWithTimeout(document.getElementById('couponMessage'), 'Coupon removed successfully');
+																	} else {
+																		setMessageWithTimeout(document.getElementById('couponMessage'), 'Failed to remove coupon');
+																	}
+																})
+																.catch(error => {
+																	console.error('Error:', error);
+																	setMessageWithTimeout(document.getElementById('couponMessage'), 'An error occurred. Please try again.');
+																});
+															}
+
+															function setMessageWithTimeout(element, message) {
+																element.textContent = message;
+																setTimeout(() => {
+																	element.textContent = '';
+																}, 5000);  // 5000 milliseconds = 5 seconds
+															}
+
+															// Initialize total payable on page load
+															document.addEventListener('DOMContentLoaded', initializeTotalPayable);
+
+                                </script>
+                                
+                                
+                                
+                            </div>
+                        </div>
+                        	
+						   <div class="flex-w">
+							
+							</a>
+						</div>
+						
+								</div>
+							</div>
+						</div>
+	
+						
+	
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+    <script>
+         const addressId = '<%= address._id %>';
+      console.log(addressId);
+      const total = '<%= total %>';
+        // Function to remove an item from the cart
+        function removeCartItem(itemId) {
+            fetch(`/user/removeitem/${itemId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // If you're using CSRF protection
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                  //  window.location.href = `/user/getorderSummery?addressId=${addressId}&total=${total}`;
+
+                  //  location.reload(); // Reload the page to reflect changes
+                } else {
+                    alert('Error removing item');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        // Event delegation for remove buttons
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('btn-remove-item')) {
+                const itemId = event.target.getAttribute('data-id');
+                removeCartItem(itemId);
+            }
+        });
+
+		// Get the "Update Cart" button and all quantity input fields
+        const updateCartBtn = document.getElementById('update-cart-btn');
+         const quantityInputs = document.querySelectorAll('.num-product');
+
+       // Add click event listener to the "Update Cart" button
+        updateCartBtn.addEventListener('click', () => {
+       const updatedItems = [];
+
+       // Loop through each quantity input field
+       quantityInputs.forEach(input => {
+        const itemId = input.dataset.id; // Get the item ID from the data-id attribute
+        const newQuantity = parseInt(input.value); // Get the new quantity from the input value
+
+        // Add the item ID and new quantity to the updatedItems array
+        updatedItems.push({ itemId, newQuantity });
+      });
+
+     
+
+       // Send an AJAX request to update the quantities on the server
+      fetch('/user/upfromOrder', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ updatedItems,addressId :addressId,total:total }),
+     })
+     .then(response => {
+        if (response.ok) {
+            console.log('Cart updated successfully');
+            window.location.href = `/user/getorderSummery?addressId=${addressId}&total=${total}`;
+        } else {
+            console.error('Failed to update cart');
+        }
+     })
+     .catch(error => {
+        console.error('Error:', error);
+     });
+      });
+	 
+
+
+
+    </script>
+
+
+
+	<!-- Footer -->
+	<footer class="bg3 p-t-75 p-b-32">
+		<div class="container">
+			<div class="row justify-content-between">
+				<div class="col-sm-6 col-lg-3 p-b-50">
+					<h4 class="stext-301 cl0 p-b-30">
+						Categories
+					</h4>
+					<ul>
+						<% category.forEach(function(category) { %>
+							<li class="p-b-10">
+								<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+									<%= category.name %>
+								</a>
+							</li>
+						<% }); %>
+					</ul>
+				</div>
+		
+				<div class="col-sm-6 col-lg-4 p-b-50 order-lg-3 p-2 ">
+					<h4 class="stext-301 cl0 p-b-30">
+						Newsletter
+					</h4>
+					<form>
+						<div class="wrap-input1 w-full p-b-4">
+							<input class="input1 bg-none plh1 stext-107 cl7" type="text" name="email" placeholder="pinkmartini@gmail.com">
+							<div class="focus-input1 trans-04"></div>
+						</div>
+						<div class="p-t-18">
+							<button class="flex-c-m stext-101 cl0 size-103 bg1 bor1 hov-btn2 p-lr-15 trans-04">
+								Subscribe
+							</button>
+						</div>
+					</form>
+				</div>
+		
+				<div class="col-sm-6 col-lg-3 p-b-50 mx-auto order-lg-2">
+					<h4 class="stext-301 cl0 p-b-30">
+						GET IN TOUCH
+					</h4>
+					<p class="stext-107 cl7 size-201">
+						Any questions? Let us know in store at 2nd floor kalpetta, wayanad :+919562687807
+					</p>
+				</div>
+			</div>
+		
+			<div class="p-t-40">
+				<div class="flex-c-m flex-w p-b-18">
+					<a href="#" class="m-all-1">
+						<img src="/assets/images/icons/icon-pay-01.png" alt="ICON-PAY">
+					</a>
+					<a href="#" class="m-all-1">
+						<img src="/assets/images/icons/icon-pay-02.png" alt="ICON-PAY">
+					</a>
+					<a href="#" class="m-all-1">
+						<img src="/assets/images/icons/icon-pay-03.png" alt="ICON-PAY">
+					</a>
+					<a href="#" class="m-all-1">
+						<img src="/assets/images/icons/icon-pay-04.png" alt="ICON-PAY">
+					</a>
+					<a href="#" class="m-all-1">
+						<img src="/assets/images/icons/icon-pay-05.png" alt="ICON-PAY">
+					</a>
+				</div>
+				<p class="stext-107 cl6 txt-center">
+					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+					Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">TECHFINIT GLOBAL</a> &amp; distributed by <a href="https://themewagon.com" target="_blank">PINK MARTINI</a>
+					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+				</p>
+			</div>
+		</div>
+	</footer>
+
+
+	<!-- Back to top -->
+	<div class="btn-back-to-top" id="myBtn">
+		<span class="symbol-btn-back-to-top">
+			<i class="zmdi zmdi-chevron-up"></i>
+		</span>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!--===============================================================================================-->	
+	<script src="/assets/vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="/assets/vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+	<script src="/assets/vendor/bootstrap/js/popper.js"></script>
+	<script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="/assets/vendor/select2/select2.min.js"></script>
+	<script>
+		$(".js-select2").each(function(){
+			$(this).select2({
+				minimumResultsForSearch: 20,
+				dropdownParent: $(this).next('.dropDownSelect2')
+			});
+		})
+	</script>
+<!--===============================================================================================-->
+	<script src="/assets/vendor/MagnificPopup/jquery.magnific-popup.min.js"></script>
+<!--===============================================================================================-->
+	<script src="/assets/vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+	<script>
+		$('.js-pscroll').each(function(){
+			$(this).css('position','relative');
+			$(this).css('overflow','hidden');
+			var ps = new PerfectScrollbar(this, {
+				wheelSpeed: 1,
+				scrollingThreshold: 1000,
+				wheelPropagation: false,
+			});
+
+			$(window).on('resize', function(){
+				ps.update();
+			})
+		});
+	</script>
+<!--===============================================================================================-->
+	<script src="/assets/js/main.js"></script>
+
+</body>
+</html>

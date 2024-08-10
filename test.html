@@ -1,0 +1,200 @@
+const createOrder = async (req, res) => {
+	console.log("razorpay:",razorpay);
+	const { addressId, paymentMethod } = req.body;
+	console.log(req.body);
+	let userId = req.session.passport?.user?.id || req.session.userId;
+
+	if (!userId) {
+		return res.status(400).json({ success: false, message: 'User not authenticated' });
+	}
+
+	try {
+		const cart = await Cart.findOne({ user: userId }).populate('items.product items.colour items.size');
+		if (!cart || cart.items.length === 0) {
+			return res.status(400).json({ success: false, message: 'Cart is empty' });
+		}
+
+		const address = await Address.findById(addressId);
+		if (!address) {
+			return res.status(400).json({ success: false, message: 'Address not found' });
+		}
+
+		let updatedOrderItems = [];
+		let updatedTotal = 0;
+		let unavailableItems = [];
+
+		// ... (keep your existing code for processing cart items)
+		for (const item of cart.items) {
+						try {
+							const product = await Product.findById(item.product._id);
+							if (!product) {
+								unavailableItems.push({ item, reason: 'Product not found' });
+								continue;
+							}
+			
+							const variant = product.variants[item.variantIndex];
+							if (!variant) {
+								unavailableItems.push({ item, reason: 'Variant not found' });
+								continue;
+							}
+							const variantImage = variant.images && variant.images.length > 0 ? variant.images[0] : null;
+	
+							console.log('Product:', product.title);
+							console.log('Available sizes:', variant.sizeQuantities.map(sq => ({ size: sq.size.toString(), quantity: sq.quantity })));
+							console.log('Requested size:', item.size._id.toString());
+							console.log('Requested quantity:', item.quantity);
+			
+							const sizeQuantity = variant.sizeQuantities.find(sq => sq.size.toString() === item.size._id.toString());
+							if (!sizeQuantity) {
+								unavailableItems.push({ item, reason: 'Size not available' });
+								continue;
+							}
+			
+							let finalQuantity = item.quantity;
+							if (sizeQuantity.quantity < item.quantity) {
+								if (sizeQuantity.quantity > 0) {
+									unavailableItems.push({ 
+										item, 
+										reason: 'Partial fulfillment',
+										availableQuantity: sizeQuantity.quantity,
+										requestedQuantity: item.quantity
+									});
+									finalQuantity = sizeQuantity.quantity;
+								} else {
+									unavailableItems.push({ item, reason: 'Out of stock' });
+									continue;
+								}
+							}
+			
+							updatedOrderItems.push({
+								
+								product: item.product._id,
+								productTitle: product.title,
+								variantIndex: item.variantIndex,
+								colour: item.colour._id,
+								colourName: item.colour.colour, // Assuming the colour has a 'name' field
+								size: item.size._id,
+								sizeName: item.size.size, // Assuming the size has a 'size' field
+								quantity: finalQuantity,
+								price: variant.price,
+								image: variantImage ? {
+									imagedata: variantImage.imagedata,
+									_id: variantImage._id
+								} : null
+							});
+							updatedTotal += variant.price * finalQuantity;
+			
+							sizeQuantity.quantity -= finalQuantity;
+							await product.save();
+						} catch (itemError) {
+							console.error('Error processing item:', itemError);
+							unavailableItems.push({ item, reason: 'Processing error' });
+						}
+					}
+
+		if (updatedOrderItems.length === 0) {
+			return res.status(400).json({ success: false, message: 'No items available for order', unavailableItems });
+		}
+
+		const orderAddress = {
+			name: address.name,
+			phoneNumber: address.phoneNumber,
+			email: address.email,
+			address: address.address,
+			locality: address.locality,
+			pinCode: address.pinCode,
+			additionalInfo: address.additionalInfo
+		};
+
+		const generateRandomOrderId = () => {
+			return Math.floor(1000000000 + Math.random() * 9000000000);
+		};
+
+		const formatDate = (timestamp) => {
+			const date = new Date(timestamp);
+			return date.toISOString().split('T')[0];
+		};
+
+		const orderId = generateRandomOrderId();
+		const createdAt = new Date();
+
+		if (paymentMethod === 'upi') {
+			// Create Razorpay order
+			console.log("ggg");
+			const razorpayOrder = await razorpay.orders.create({
+		
+				amount: updatedTotal * 100, // Razorpay expects amount in paise
+				currency: 'INR',
+				receipt: `order_${orderId}`,
+				payment_capture: 1
+			});
+
+			// Save order details in your database
+			const order = new Order({
+				orderId: orderId,
+				user: userId,
+				items: updatedOrderItems,
+				address: orderAddress,
+				total: updatedTotal,
+		
+				paymentMethod,
+				createdAt: formatDate(createdAt),
+				razorpayOrderId: razorpayOrder.id,
+				paymentStatus: 'Pending'
+			});
+
+			console.log(order);
+
+			await order.save();
+
+			return res.status(200).json({
+				success: true,
+				message: 'Razorpay order created',
+				order: razorpayOrder,
+				key: process.env.RAZORPAY_KEY_ID,
+				orderDetails: order
+			});
+		} else {
+			// Existing logic for other payment methods
+			const order = new Order({
+				orderId: orderId,
+				user: userId,
+				items: updatedOrderItems,
+				address: orderAddress,
+				total: updatedTotal,
+				paymentMethod,
+				createdAt: formatDate(createdAt)
+			});
+
+			await order.save();
+
+			// Clear the cart
+			await Cart.findOneAndUpdate({ user: userId }, { items: [] });
+
+			// Prepare response message
+			let message = 'Order placed successfully';
+			if (unavailableItems.length > 0) {
+				message += ', but some items were unavailable or had reduced quantities:';
+				unavailableItems.forEach(({ item, reason, availableQuantity, requestedQuantity }) => {
+					message += `\n- ${item.product.title} (${item.size.size}): ${reason}`;
+					if (reason === 'Partial fulfillment') {
+						message += `. Requested: ${requestedQuantity}, Available: ${availableQuantity}`;
+					}
+				});
+			}
+
+			res.status(200).json({ 
+				success: true, 
+				message: message,
+				order: order,
+				unavailableItems: unavailableItems
+			});
+		}
+	} catch (error) {
+		console.error('Error creating order:', error);
+		if (error.response) {
+			console.error('Razorpay API response:', error.response.data);
+		}
+		res.status(500).json({ success: false, message: 'Internal Server Error', error: error.message });
+	}
+};

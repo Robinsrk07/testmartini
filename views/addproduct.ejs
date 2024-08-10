@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" />
+    <style>
+        .variant-block { margin-bottom: 20px; }
+        .size-quantity-block { margin-bottom: 10px; }
+        .cropper-container { margin-top: 10px; }
+        .preview { max-width: 100%; max-height: 300px; }
+        .cropper-container {
+    width: 400px; 
+    height: 500px; 
+    margin-top: 10px;
+}
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="mb-4">Add New Product</h1>
+    <form id="product-form" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="name">Product Name:</label>
+            <input type="text" class="form-control" id="name" name="name" required required pattern="[A-Za-z ]+">
+        </div>
+        <div class="form-group">
+            <label for="category">Category:</label>
+            <select class="form-control" id="category" name="category" required>
+                <option value="" disabled selected>Select Category</option>
+                <% categories.forEach(function(category) { %>
+                    <option value="<%= category._id %>"><%= category.name %></option>
+                <% }) %>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="brand">Brand:</label>
+            <select class="form-control" id="brand" name="brand" required>
+                <option value="" disabled selected>Select Brand</option>
+                <% brand.forEach(function(brand) { %>
+                    <option value="<%= brand._id %>"><%= brand.name %></option>
+                <% }) %>
+            </select>
+        </div>
+        
+        <div id="variants">
+            <div class="variant-block">
+                <h4>Variant 1</h4>
+                <div class="form-group">
+                    <label for="colour">Colour:</label>
+                    <select class="form-control" name="variants[0][colour]" required>
+                        <option value="" disabled selected>Select Colour</option>
+                        <% colour.forEach(function(colour) { %>
+                            <option value="<%= colour._id %>"><%= colour.colour %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="price">Price:</label>
+                    <input type="number" class="form-control" name="variants[0][price]" required required min="1">
+                </div>
+                <div class="size-quantity-wrapper">
+                    <div class="size-quantity-block">
+                        <label>Size and Quantity:</label>
+                        <div class="form-inline">
+                            <select class="form-control mb-2 mr-sm-2" name="variants[0][sizeQuantities][0][size]" required>
+                                <option value="" disabled selected>Select Size</option>
+                                <% size.forEach(function(size) { %>
+                                    <option value="<%= size._id %>"><%= size.size %></option>
+                                <% }) %>
+                            </select>
+                            <input type="number" class="form-control mb-2 mr-sm-2" name="variants[0][sizeQuantities][0][quantity]" placeholder="Quantity" required min="1">
+                            <button type="button" class="btn btn-success mb-2 add-size-quantity">Add Size/Quantity</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Images:</label>
+                    <div class="cropper-container">
+                        <img id="image-preview-0-0" style="visibility: hidden;" class="preview" src="#" alt="Preview 1">
+                    </div>
+                    <input type="file" class="form-control mb-2 image-input" data-index="0-0" name="variants[0][images][0]" accept="image/*" required>
+                    <div class="cropper-container">
+                        <img id="image-preview-0-1" style="visibility: hidden;" class="preview" src="#" alt="Preview 2">
+                    </div>
+                    <input type="file" class="form-control mb-2 image-input" data-index="0-1" name="variants[0][images][1]" accept="image/*" required>
+                    <div class="cropper-container">
+                        <img id="image-preview-0-2" style="visibility: hidden;" class="preview" src="#" alt="Preview 3">
+                    </div>
+                    <input type="file" class="form-control mb-2 image-input" data-index="0-2" name="variants[0][images][2]" accept="image/*" required>
+                </div>
+                <button type="button" class="btn btn-danger remove-variant">Remove Variant</button>
+                <hr>
+                
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                <script>
+                    $(document).ready(function () {
+                        $('.image-input').on('change', function () {
+                            const file = this.files[0];
+                            const index = $(this).data('index');
+                            const validImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
+                
+                            if (file && validImageTypes.includes(file.type)) {
+                                const reader = new FileReader();
+                                reader.onload = function (e) {
+                                    $('#image-preview-' + index).attr('src', e.target.result).css('visibility', 'visible');
+                                };
+                                reader.readAsDataURL(file);
+                            } else {
+                                alert('Invalid file. Only JPG, PNG');
+                                $(this).val('');
+                                $('#image-preview-' + index).attr('src', '#').css('visibility', 'hidden');
+                            }
+                        });
+                    });
+                </script>
+            </div>
+        </div>
+
+        <button type="button" id="add-variant" class="btn btn-primary">Add Another Variant</button>
+        <button type="submit" class="btn btn-success">Add Product</button>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        let variantIndex = 1;
+        let croppers = {};
+
+        function initializeCropper(variantIdx, imageIdx) {
+            const previewId = `image-preview-${variantIdx}-${imageIdx}`;
+            const image = document.getElementById(previewId);
+            croppers[`${variantIdx}-${imageIdx}`] = new Cropper(image, {
+                aspectRatio: 1/1.5,
+                viewMode: 2,
+                guides: true,
+                autoCropArea: 0.8,
+                dragMode: 'move',
+                movable: true,
+                zoomable: true,
+                rotatable: true,
+                scalable: true,
+                cropBoxMovable: true,
+                cropBoxResizable: true,
+                background: false,
+            });
+
+            $(`input[data-index="${variantIdx}-${imageIdx}"]`).on('change', function() {
+                const file = this.files[0];
+                const reader = new FileReader();
+
+                reader.onload = function() {
+                    image.src = reader.result;
+                    croppers[`${variantIdx}-${imageIdx}`].replace(reader.result);
+                    croppers[`${variantIdx}-${imageIdx}`].reset();
+
+                }
+
+                if (file) {
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        function addVariant() {
+            const variantBlock = `
+                <div class="variant-block">
+                    <h4>Variant ${variantIndex + 1}</h4>
+                    <div class="form-group">
+                        <label for="colour">Colour:</label>
+                        <select class="form-control" name="variants[${variantIndex}][colour]" required>
+                            <option value="" disabled selected>Select Colour</option>
+                            <% colour.forEach(function(colour) { %>
+                                <option value="<%= colour._id %>"><%= colour.colour %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Price:</label>
+                        <input type="number" class="form-control" name="variants[${variantIndex}][price]" required required min="0">
+                    </div>
+                    <div class="size-quantity-wrapper">
+                        <div class="size-quantity-block">
+                            <label>Size and Quantity:</label>
+                            <div class="form-inline">
+                                <select class="form-control mb-2 mr-sm-2" name="variants[${variantIndex}][sizeQuantities][0][size]" required>
+                                    <option value="" disabled selected>Select Size</option>
+                                    <% size.forEach(function(size) { %>
+                                        <option value="<%= size._id %>"><%= size.size %></option>
+                                    <% }) %>
+                                </select>
+                                <input type="number" class="form-control mb-2 mr-sm-2" name="variants[${variantIndex}][sizeQuantities][0][quantity]" placeholder="Quantity" required required min="1">
+                                <button type="button" class="btn btn-success mb-2 add-size-quantity">Add Size/Quantity</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+      
+                        <label>Images:</label>
+                        <div class="cropper-container" >
+                        <img id="image-preview-${variantIndex}-0" class="preview" src="#" alt="Preview 1">
+                        </div>
+                        <input type="file" class="form-control mb-2 image-input" data-index="${variantIndex}-0" name="variants[${variantIndex}][images][0]" accept="image/*" required>
+                        <input type="hidden" name="variants[${variantIndex}][croppedImages][0]" id="cropped-image-${variantIndex}-0">
+                        <div class="cropper-container">
+                            <img id="image-preview-${variantIndex}-1" class="preview" src="#" alt="Preview 2">
+                        </div>
+                        <input type="file" class="form-control mb-2 image-input" data-index="${variantIndex}-1" name="variants[${variantIndex}][images][1]" accept="image/*" required>
+                        <input type="hidden" name="variants[${variantIndex}][croppedImages][1]" id="cropped-image-${variantIndex}-1">
+                        <div class="cropper-container">
+                            <img id="image-preview-${variantIndex}-2" class="preview" src="#" alt="Preview 3">
+                        </div>
+                        <input type="file" class="form-control mb-2 image-input" data-index="${variantIndex}-2" name="variants[${variantIndex}][images][2]" accept="image/*" required>
+                        <input type="hidden" name="variants[${variantIndex}][croppedImages][2]" id="cropped-image-${variantIndex}-2">
+                    </div>
+                    <button type="button" class="btn btn-danger remove-variant">Remove Variant</button>
+                    <hr>
+                </div>`;
+            
+            $('#variants').append(variantBlock);
+
+            initializeCropper(variantIndex, 0);
+            initializeCropper(variantIndex, 1);
+            initializeCropper(variantIndex, 2);
+
+            variantIndex++;
+        }
+
+        $('#add-variant').on('click', addVariant);
+
+        $(document).on('click', '.add-size-quantity', function() {
+            const sizeQuantityBlock = $(this).closest('.size-quantity-block');
+            const wrapper = sizeQuantityBlock.closest('.size-quantity-wrapper');
+            const variantIndex = wrapper.closest('.variant-block').index();
+            const sizeQuantityIndex = wrapper.find('.size-quantity-block').length;
+
+            const newSizeQuantityBlock = `
+                <div class="size-quantity-block">
+                    <label>Size and Quantity:</label>
+                    <div class="form-inline">
+                        <select class="form-control mb-2 mr-sm-2" name="variants[${variantIndex}][sizeQuantities][${sizeQuantityIndex}][size]" required>
+                            <option value="" disabled selected>Select Size</option>
+                            <% size.forEach(function(size) { %>
+                                <option value="<%= size._id %>"><%= size.size %></option>
+                            <% }) %>
+                        </select>
+                        <input type="number" class="form-control mb-2 mr-sm-2" name="variants[${variantIndex}][sizeQuantities][${sizeQuantityIndex}][quantity]" placeholder="Quantity" required>
+                        <button type="button" class="btn btn-danger mb-2 remove-size-quantity">Remove</button>
+                    </div>
+                </div>`;
+            
+            wrapper.append(newSizeQuantityBlock);
+        });
+
+        $(document).on('click', '.remove-size-quantity', function() {
+            $(this).closest('.size-quantity-block').remove();
+        });
+
+        $(document).on('click', '.remove-variant', function() {
+            const indexToRemove = $(this).closest('.variant-block').index();
+            for (let i = 0; i < 3; i++) {
+                const cropperKey = `${indexToRemove}-${i}`;
+                if (croppers[cropperKey]) {
+                    croppers[cropperKey].destroy();
+                    delete croppers[cropperKey];
+                }
+            }
+            $(this).closest('.variant-block').remove();
+            variantIndex--;
+        });
+
+        $('#product-form').on('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+
+            Object.keys(croppers).forEach(key => {
+                const [variantIdx, imageIdx] = key.split('-');
+                const cropper = croppers[key];
+                const croppedCanvas = cropper.getCroppedCanvas();
+                const croppedImage = croppedCanvas.toDataURL('image/jpeg');
+                formData.append(`variants[${variantIdx}][croppedImages][${imageIdx}]`, croppedImage);
+            });
+
+            $.ajax({
+                url: '/admin/addproduct',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.success) {
+            // Redirect to the specified URL
+            window.location.href = response.redirectUrl;
+        } else {
+            // Handle other cases or errors
+            alert(response.message);
+        }
+                },
+                error: function(xhr, status, error) {
+                    window.location.reload();
+                }
+            });
+        });
+
+        // Initialize cropper for the first variant
+        initializeCropper(0, 0);
+        initializeCropper(0, 1);
+        initializeCropper(0, 2);
+    });
+</script>
+</body>
+</html>

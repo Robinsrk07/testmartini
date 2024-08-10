@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Product</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/cropperjs/dist/cropper.css">
+    <style>
+        .variant-block { margin-bottom: 20px; }
+        .size-quantity-block { margin-bottom: 10px; }
+      
+   
+        .modal-dialog.modal-xl { 
+        max-width: 40vw;
+        width: 40vw;
+    }
+
+    .modal-content {
+        height: 90vh;
+    }
+
+    .modal-body {
+        max-height: calc(90vh - 120px);
+        padding: 0;
+    }
+
+    .img-container {
+        height: 100%;
+        width: 100%;
+    }
+
+    #image {
+        display: block;
+        max-width: 100%;
+        max-height: calc(90vh - 120px);
+    }
+</style>
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="mb-4">Edit Product</h1>
+    <form id="edit-product-form" enctype="multipart/form-data">
+        <input type="hidden" name="productId" value="<%= productData._id %>">
+        <div class="form-group">
+            <label for="name">Product Name:</label>
+            <input type="text" class="form-control" id="name" name="name" value="<%= productData.title %>" required>
+        </div>
+        <div class="form-group">
+            <label for="category">Category:</label>
+            <select class="form-control" id="category" name="category" required>
+                <option value="" disabled <% if (!productData.category) { %>selected<% } %>>Select Category</option>
+                <% categories.forEach(function(category) { %>
+                    <option value="<%= category._id %>" <% if (productData.category && productData.category._id.toString() === category._id.toString()) { %>selected<% } %>><%= category.name %></option>
+                <% }) %>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="brand">Brand:</label>
+            <select class="form-control" id="brand" name="brand" required>
+                <option value="" disabled <% if (!productData.brand) { %>selected<% } %>>Select Brand</option>
+                <% brands.forEach(function(brand) { %>
+                    <option value="<%= brand._id %>" <% if (productData.brand && productData.brand._id.toString() === brand._id.toString()) { %>selected<% } %>><%= brand.name %></option>
+                <% }) %>
+            </select>
+        </div>
+        
+        <div id="variants">
+            <% productData.variants.forEach(function(variant, index) { %>
+                <div class="variant-block">
+                    <h4>Variant <%= index + 1 %></h4>
+                    <input type="hidden" name="variants[<%= index %>][id]" value="<%= variant._id %>">
+                    <div class="form-group">
+                        <label for="colour">Colour:</label>
+                        <select class="form-control" name="variants[<%= index %>][colour]" required>
+                            <option value="" disabled <% if (!variant.colour) { %>selected<% } %>>Select Colour</option>
+                            <% colours.forEach(function(colour) { %>
+                                <option value="<%= colour._id %>" <% if (variant.colour && variant.colour._id.toString() === colour._id.toString()) { %>selected<% } %>><%= colour.colour %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Price:</label>
+                        <input type="number" class="form-control" name="variants[<%= index %>][price]" value="<%= variant.price %>" required min="1">
+                    </div>
+                    <div class="size-quantity-wrapper">
+                        <% variant.sizeQuantities.forEach(function(sizeQuantity, sizeIndex) { %>
+                            <div class="size-quantity-block">
+                                <label>Size and Quantity:</label>
+                                <div class="form-inline">
+                                    <select class="form-control mb-2 mr-sm-2" name="variants[<%= index %>][sizeQuantities][<%= sizeIndex %>][size]" required>
+                                        <option value="" disabled <% if (!sizeQuantity.size) { %>selected<% } %>>Select Size</option>
+                                        <% sizes.forEach(function(size) { %>
+                                            <option value="<%= size._id %>" <% if (sizeQuantity.size && sizeQuantity.size._id.toString() === size._id.toString()) { %>selected<% } %>><%= size.size %></option>
+                                        <% }) %>
+                                    </select>
+                                    <input type="number" class="form-control mb-2 mr-sm-2" name="variants[<%= index %>][sizeQuantities][<%= sizeIndex %>][quantity]" value="<%= sizeQuantity.quantity %>" required min="1">
+                                    <button type="button" class="btn btn-danger mb-2 remove-size-quantity">Remove</button>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                    <div class="form-group">
+                        <label>Images:</label>
+                        <% variant.images.forEach(function(image, imageIndex) { %>
+                            <div class="image-group mb-2">
+                                <img src="data:image/jpeg;base64,<%= image.imagedata.toString('base64') %>" alt="Image Preview" class="img-thumbnail mb-2" style="width: 100px; height: 100px;">
+                                <input type="file" class="form-control image-input" name="variants[<%= productData.variants.indexOf(variant) %>][images][<%= imageIndex %>]" data-image-id="<%= image._id %>" accept="image/*">
+                                <input type="hidden" name="variants[<%= productData.variants.indexOf(variant) %>][existingImages][<%= imageIndex %>]" value="<%= image._id %>">
+                            </div>
+                        <% }) %>
+                    </div>
+                    <button type="button" class="btn btn-danger remove-variant">Remove Variant</button>
+                    <hr>
+                </div>
+            <% }) %>
+        </div>
+
+        <button type="button" id="add-variant" class="btn btn-primary">Add Another Variant</button>
+        <button type="submit" class="btn btn-success">Update Product</button>
+    </form>
+</div>
+
+<!-- Cropper Modal -->
+<div class="modal fade" id="cropperModal" tabindex="-1" role="dialog" aria-labelledby="cropperModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cropperModalLabel">Crop Image</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="img-container">
+            <img id="image" src="" alt="Image">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" id="cropImage">Crop</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.all.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/cropperjs"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    let variantIndex = document.querySelectorAll('.variant-block').length;
+    let cropper;
+    let currentFileInput;
+    const cropperModal = document.getElementById('cropperModal');
+    const imageElement = document.getElementById('image');
+
+        document.getElementById('add-variant').addEventListener('click', function() {
+            const variantBlock = `
+                <div class="variant-block">
+                    <h4>Variant ${variantIndex + 1}</h4>
+                    <div class="form-group">
+                        <label for="colour">Colour:</label>
+                        <select class="form-control" name="variants[${variantIndex}][colour]" required>
+                            <option value="" disabled selected>Select Colour</option>
+                            <% colours.forEach(function(colour) { %>
+                                <option value="<%= colour._id %>"><%= colour.colour %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Price:</label>
+                        <input type="number" class="form-control" name="variants[${variantIndex}][price]" required min="1">
+                    </div>
+                    <div class="size-quantity-wrapper">
+                        <div class="size-quantity-block">
+                            <label>Size and Quantity:</label>
+                            <div class="form-inline">
+                                <select class="form-control mb-2 mr-sm-2" name="variants[${variantIndex}][sizeQuantities][0][size]" required>
+                                    <option value="" disabled selected>Select Size</option>
+                                    <% sizes.forEach(function(size) { %>
+                                        <option value="<%= size._id %>"><%= size.size %></option>
+                                    <% }) %>
+                                </select>
+                                <input type="number" class="form-control mb-2 mr-sm-2" name="variants[${variantIndex}][sizeQuantities][0][quantity]" placeholder="Quantity" required min="1">
+                                <button type="button" class="btn btn-success mb-2 add-size-quantity">Add Size/Quantity</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Images:</label>
+                        <input type="file" class="form-control mb-2 image-input" name="variants[${variantIndex}][images][]" accept="image/*" required>
+                        <input type="file" class="form-control mb-2 image-input" name="variants[${variantIndex}][images][]" accept="image/*" required>
+                        <input type="file" class="form-control mb-2 image-input" name="variants[${variantIndex}][images][]" accept="image/*" required>
+                    </div>
+                    <button type="button" class="btn btn-danger remove-variant">Remove Variant</button>
+                    <hr>
+                </div>`;
+            
+            document.getElementById('variants').insertAdjacentHTML('beforeend', variantBlock);
+            variantIndex++;
+        });
+
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('add-size-quantity')) {
+                const sizeQuantityBlock = event.target.closest('.size-quantity-block');
+                const wrapper = sizeQuantityBlock.closest('.size-quantity-wrapper');
+                const variantBlock = wrapper.closest('.variant-block');
+                const variantIndex = Array.from(variantBlock.parentNode.children).indexOf(variantBlock);
+                const sizeQuantityIndex = Array.from(wrapper.children).indexOf(sizeQuantityBlock);
+
+                const newSizeQuantityBlock = `
+                    <div class="size-quantity-block">
+                        <label>Size and Quantity:</label>
+                        <div class="form-inline">
+                            <select class="form-control mb-2 mr-sm-2" name="variants[${variantIndex}][sizeQuantities][${sizeQuantityIndex + 1}][size]" required>
+                                <option value="" disabled selected>Select Size</option>
+                                <% sizes.forEach(function(size) { %>
+                                    <option value="<%= size._id %>"><%= size.size %></option>
+                                <% }) %>
+                            </select>
+                            <input type="number" class="form-control mb-2 mr-sm-2" name="variants[${variantIndex}][sizeQuantities][${sizeQuantityIndex + 1}][quantity]" placeholder="Quantity" required>
+                            <button type="button" class="btn btn-danger mb-2 remove-size-quantity">Remove</button>
+                        </div>
+                    </div>`;
+                
+                wrapper.insertAdjacentHTML('beforeend', newSizeQuantityBlock);
+            }
+        });
+
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('remove-size-quantity')) {
+                event.target.closest('.size-quantity-block').remove();
+            }
+        });
+
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('remove-variant')) {
+                event.target.closest('.variant-block').remove();
+            }
+        });
+
+        document.addEventListener('change', function(event) {
+    if (event.target.classList.contains('image-input')) {
+        currentFileInput = event.target;
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imageElement.src = e.target.result;
+                $('#cropperModal').modal('show');
+                
+                // Wait for the modal to be fully shown before initializing Cropper
+                $('#cropperModal').on('shown.bs.modal', function() {
+                    if (cropper) {
+                        cropper.destroy();
+                    }
+                    cropper = new Cropper(imageElement, {
+                        aspectRatio: 1,
+                        viewMode: 1,
+                        minCropBoxWidth: 100,
+                        minCropBoxHeight: 100,
+                        responsive: true,
+                        restore: false,
+                        center: false,
+                        highlight: false,
+                        cropBoxMovable: true,
+                        cropBoxResizable: true,
+                        toggleDragModeOnDblclick: false,
+                    });
+                });
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+});
+
+    document.getElementById('cropImage').addEventListener('click', function() {
+        const canvas = cropper.getCroppedCanvas({
+            width: 100,
+            height: 100
+        });
+        canvas.toBlob(function(blob) {
+            const file = new File([blob], 'cropped_image.jpg', { type: 'image/jpeg' });
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            currentFileInput.files = dataTransfer.files;
+
+            const imgElement = currentFileInput.previousElementSibling;
+            if (imgElement && imgElement.tagName === 'IMG') {
+                imgElement.src = URL.createObjectURL(file);
+            } else {
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+                img.alt = 'Image Preview';
+                img.className = 'img-thumbnail mb-2';
+                img.style.width = '100px';
+                img.style.height = '100px';
+                currentFileInput.insertAdjacentElement('beforebegin', img);
+            }
+            
+            $('#cropperModal').modal('hide');
+        }, 'image/jpeg');
+    });
+
+        document.getElementById('edit-product-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+
+            fetch('/admin/editproduct', {
+                method: 'PUT',
+                body: formData
+            })
+            .then(function(response) {
+  if (response.ok) {
+    Swal.fire({
+      title: 'Success!',
+      text: 'Product updated successfully!',
+      icon: 'success',
+      confirmButtonText: 'OK'
+    });
+  } else {
+    throw new Error('Failed to update product');
+  }
+})
+.catch(function(error) {
+  Swal.fire({
+    title: 'Error!',
+    text: 'Failed to update product: ' + error.message,
+    icon: 'error',
+    confirmButtonText: 'OK'
+  });
+});
+        });
+    });
+</script>
+</body>
+</html>

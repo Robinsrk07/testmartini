@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Category</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 400px;
+            width: 100%;
+        }
+        .card label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .card input[type="text"],
+        .card input[type="file"],
+        .card button {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .card button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .card button:hover {
+            background-color: #0056b3;
+        }
+        .error-message {
+            color: pink;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        input:invalid {
+            border: 1px solid pink;
+        }
+    </style>
+    <script>
+        function validateForm() {
+            const name = document.forms["categoryForm"]["categoryname"].value;
+            const imageInput = document.forms["categoryForm"]["image"];
+            const image = imageInput.value;
+            let valid = true;
+
+            if (name == "") {
+                document.getElementById("nameError").innerHTML = "Category name is required.";
+                valid = false;
+            } else {
+                document.getElementById("nameError").innerHTML = "";
+            }
+
+           
+            if (image == "") {
+                document.getElementById("imageError").innerHTML = "Image is required.";
+                valid = false;
+            } else if (!imageInput.files[0].type.startsWith('image/')) {
+                document.getElementById("imageError").innerHTML = "Only image files are allowed.";
+                valid = false;
+            } else {
+                document.getElementById("imageError").innerHTML = "";
+            }
+
+            return valid;
+        }
+    </script>
+</head>
+<body>
+    <div class="card">
+        <form name="categoryForm" action="/admin/updatecategory/<%= pass._id %>" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+            <label for="name">Category Name</label>
+            <input type="text" name="categoryname" value="<%= pass.name %>" required>
+            <span id="nameError" class="error-message"></span>
+
+            <label for="image">Upload Image</label>
+            <input type="file" name="image" accept="image/*">
+            <span id="imageError" class="error-message"></span>
+
+            <button type="submit">Update Data</button>
+        </form>
+    </div>
+</body>
+</html>

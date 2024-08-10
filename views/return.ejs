@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Return Item</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f5f5dc; /* Beige background */
+            color: #000; /* Black text */
+        }
+        .container {
+            margin-top: 50px;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #000;
+        }
+        .btn-custom {
+            background-color: #000;
+            color: #f5f5dc;
+        }
+        .btn-custom:hover {
+            background-color: #444;
+            color: #f5f5dc;
+        }
+        .error-message {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Return Item</h1>
+        
+        <div id="message" class="mb-4"></div> <!-- Placeholder for the message -->
+
+        <h2 class="mt-4">Item Details</h2>
+        <p><strong>Product:</strong> <%= item.productTitle %></p>
+        <p><strong>Color:</strong> <%= item.colourName %></p>
+        <p><strong>Size:</strong> <%= item.sizeName %></p>
+        <p><strong>Quantity:</strong> <%= item.quantity %></p>
+        <p><strong>Price:</strong> <%= item.price %></p>
+
+        <h2 class="mt-4">Return Form</h2>
+        <div id="warningMessage" class="error-message"></div>
+        <form id="returnForm">
+            <input type="hidden" name="orderId" value="<%= order._id %>">
+            <input type="hidden" name="itemId" value="<%= item._id %>">
+            
+            <div class="form-group">
+                <label for="returnReason">Reason for Return:</label>
+                <textarea class="form-control" id="returnReason" name="returnReason" rows="4" required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-custom btn-block">Submit Return Request</button>
+        </form>
+    </div>
+
+    <!-- JavaScript for handling form submission and displaying messages -->
+    <script>
+        document.getElementById('returnForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const returnReason = document.getElementById('returnReason').value.trim();
+            const warningElement = document.getElementById('warningMessage');
+
+            // Clear previous warnings
+            warningElement.textContent = '';
+
+            // Validation logic
+            const alphanumericPattern = /^[a-zA-Z0-9]*$/;
+            if (returnReason === '') {
+                warningElement.textContent = 'Please provide a reason for the return.';
+                return;
+            }
+            if (!alphanumericPattern.test(returnReason)) {
+                warningElement.textContent = 'Please enter only letters and numbers, without spaces.';
+                return;
+            }
+
+            const orderId = document.querySelector('input[name="orderId"]').value;
+            const itemId = document.querySelector('input[name="itemId"]').value;
+
+            fetch('/user/submit-return', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ orderId, itemId, returnReason })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const messageDiv = document.getElementById('message');
+                if (data.success) {
+                    messageDiv.innerHTML = '<div class="alert alert-success">Return request submitted successfully.</div>';
+                } else {
+                    messageDiv.innerHTML = `<div class="alert alert-danger">Failed to submit return request: ${data.message}</div>`;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('message').innerHTML = '<div class="alert alert-danger">An error occurred. Please try again later.</div>';
+            });
+        });
+    </script>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,343 @@
+<%- include('header')-%>
+<body class="animsition">
+	
+	<!-- Header -->
+	<header class="header-v4">
+		<!-- Header desktop -->
+		<div class="container-menu-desktop " >
+			<!-- Topbar --><style>
+  #fixed-top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: inherit; /* This will maintain the current background color */
+  }
+
+  body {
+    padding-top: 40px; /* Adjust this value based on the height of your top bar */
+  }
+
+  /* If your top bar is inside the header, adjust the header's top margin */
+  .header-v4 {
+    margin-top: 40px; /* Should match the body's padding-top */
+  }
+</style>
+      <div id="fixed-top-bar">
+
+			<div class="top-bar">
+				<div class="content-topbar flex-sb-m h-full container">
+					<div class="left-top-bar">
+						Free shipping for standard order over RS 1000
+					</div>
+
+					<div class="right-top-bar flex-w h-full">
+						
+
+						<% if (user) { %>
+							<!-- Show username when logged in -->
+							<a href="" class="flex-c-m trans-04 p-lr-25">
+								 Welcome <%= user.name %>
+							</a>
+							<a href="/user/logout" class="flex-c-m trans-04 p-lr-25">
+								Logout
+							</a>
+						<% } else { %>
+							<!-- Show "My Account" when not logged in -->
+							<a href="/user/login" class="flex-c-m trans-04 p-lr-25">
+								My Account
+							</a>
+						<% } %>
+
+						<a href="/user/userhome" class="flex-c-m trans-04 p-lr-25">
+							MY PROFILE
+						</a>
+					</div>
+				</div>
+			</div></div>
+
+
+
+			<div class="wrap-menu-desktop how-shadow1">
+				<nav class="limiter-menu-desktop container">
+					
+					<!-- Logo desktop -->		
+					<a href="#" class="logo">
+						<h2 class="text-secondary"> <span>PINK</span>  MARTINI</h2>
+					</a>
+
+					<!-- Menu desktop -->
+					
+
+					<!-- Icon header -->
+					<div class="wrap-icon-header flex-w flex-r-m">
+						
+
+						<a href="/user/cart">
+							<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="<%= totalQuantity %>">
+								<i class="zmdi zmdi-shopping-cart"></i>
+							</div>
+						</a>
+							<a href="/user/getwishlist" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
+								<i class="zmdi zmdi-favorite-outline"></i>
+							</a>
+					</div>
+				</nav>
+			</div>	
+		</div>
+           
+			<!-- Header Mobile -->
+		<div class="wrap-header-mobile">
+			<!-- Logo moblie -->		
+			<div class="logo-mobile">
+				<h2 class="text-secondary"> <span>PINK</span>  MARTINI</h2>
+			</div>
+
+			<!-- Icon header -->
+			<div class="wrap-icon-header flex-w flex-r-m m-r-15">
+				<a href="/user/cart">
+					<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="<%= totalQuantity %>">
+						<i class="zmdi zmdi-shopping-cart"></i>
+					</div>
+				</a>
+					<a href="/user/getwishlist" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
+						<i class="zmdi zmdi-favorite-outline"></i>
+					</a>
+			</div>
+
+			<!-- Button show menu -->
+			<div class="btn-show-menu-mobile hamburger hamburger--squeeze">
+				<span class="hamburger-box">
+					<span class="hamburger-inner"></span>
+				</span>
+			</div>
+		</div>
+
+
+		<!-- Menu Mobile -->
+		<div class="menu-mobile">
+			<ul class="topbar-mobile">
+				<li>
+					<div class="left-top-bar">
+						Free shipping for standard order over RS 1000
+					</div>
+				</li>
+
+				<li>
+					<div class="right-top-bar flex-w h-full">
+						<% if (user) { %>
+							<!-- Show username when logged in -->
+							<a href="" class="flex-c-m trans-04 p-lr-25">
+								 Welcome <%= user.name %>
+							</a>
+							<a href="/user/logout" class="flex-c-m trans-04 p-lr-25">
+								Logout
+							</a>
+						<% } else { %>
+							<!-- Show "My Account" when not logged in -->
+							<a href="/user/login" class="flex-c-m trans-04 p-lr-25">
+								My Account
+							</a>
+						<% } %>
+
+						<a href="/user/userhome" class="flex-c-m trans-04 p-lr-25">
+							MY PROFILE
+						</a>
+					</div>
+				</li>
+			</ul>
+
+			
+		</div>
+
+		<!-- Modal Search -->
+		<div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
+			<div class="container-search-header">
+				<button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
+					<img src="/assets/images/icons/icon-close2.png" alt="CLOSE">
+				</button>
+
+				<form class="wrap-search-header flex-w p-l-15">
+					<button class="flex-c-m trans-04">
+						<i class="zmdi zmdi-search"></i>
+					</button>
+					<input class="plh3" type="text" name="search" placeholder="Search...">
+				</form>
+			</div>
+		</div>
+	</header>
+
+    <%- include('header')-%>
+
+    <section class="vh-100" style="background-color: #eae5e6;">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col col-xl-10">
+                    <div class="card" style="border-radius: 1rem;">
+                        <div class="row g-0">
+                            <div class="col-md-6 col-lg-5 d-none d-md-block">
+                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/img1.webp"
+                                    alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
+                            </div>
+                            <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                                <div class="card-body p-4 p-lg-5 text-black">
+    
+                                    <form id="registrationForm" action="/user/update_profile" method="post">
+    
+                                        <div class="d-flex align-items-center mb-3 pb-1">
+                                            <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
+                                            <span class="h1 fw-bold mb-0">PINK MARTINI</span>
+                                        </div>
+    
+                                        <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Change your profile details</h5>
+    
+                                        <div class="form-outline mb-4">
+                                            <label for="name">Enter your name</label>
+                                            <input type="text" id="name" class="form-control form-control-lg" name="name" placeholder="full name" value="<%= user.name %>" />
+                                            <div id="nameError" class="text-danger mt-2"></div>
+                                        </div>
+    
+                                        <div class="form-outline mb-4">
+                                            <label for="mobile">Enter Updated Mobile number</label>
+                                            <input type="text" id="mobile" class="form-control form-control-lg" name="mobile" placeholder="mobile number" value="<%= user.mobile %>" />
+                                            <div id="mobileError" class="text-danger mt-2"></div>
+                                        </div>
+    
+                                        <div class="pt-1 mb-4">
+                                            <button class="btn btn-dark btn-lg btn-block" type="submit">Proceed</button>
+                                        </div>
+    
+                                    </form>
+    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <%- include('footer')-%>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("registrationForm").addEventListener("submit", function(event) {
+                event.preventDefault(); 
+                
+                const formData = new FormData(this);
+                const data = Object.fromEntries(formData.entries());
+                
+                fetch('/user/update_profile', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        alert('Profile updated successfully!');
+                        window.location.href = '/user/userhome'; 
+                    
+                    } else {
+                       
+                        document.getElementById('nameError').textContent = result.errors.name || '';
+                        document.getElementById('mobileError').textContent = result.errors.mobile || '';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again.');
+                });
+            });
+        });
+        </script>
+        
+
+   
+
+
+<footer class="bg3 p-t-75 p-b-32">
+		<div class="container">
+			<div class="row justify-content-between">
+				<div class="col-sm-6 col-lg-3 p-b-50">
+					<h4 class="stext-301 cl0 p-b-30">
+						Categories
+					</h4>
+					<ul>
+						<% category.forEach(function(category) { %>
+							<li class="p-b-10">
+								<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+									<%= category.name %>
+								</a>
+							</li>
+						<% }); %>
+					</ul>
+				</div>
+		
+				<div class="col-sm-6 col-lg-4 p-b-50 order-lg-3 p-2 ">
+					<h4 class="stext-301 cl0 p-b-30">
+						Newsletter
+					</h4>
+					<form>
+						<div class="wrap-input1 w-full p-b-4">
+							<input class="input1 bg-none plh1 stext-107 cl7" type="text" name="email" placeholder="pinkmartini@gmail.com">
+							<div class="focus-input1 trans-04"></div>
+						</div>
+						<div class="p-t-18">
+							<button class="flex-c-m stext-101 cl0 size-103 bg1 bor1 hov-btn2 p-lr-15 trans-04">
+								Subscribe
+							</button>
+						</div>
+					</form>
+				</div>
+		
+				<div class="col-sm-6 col-lg-3 p-b-50 mx-auto order-lg-2">
+					<h4 class="stext-301 cl0 p-b-30">
+						GET IN TOUCH
+					</h4>
+					<p class="stext-107 cl7 size-201">
+						Any questions? Let us know in store at 2nd floor kalpetta, wayanad :+919562687807
+					</p>
+				</div>
+			</div>
+		
+			<div class="p-t-40">
+				<div class="flex-c-m flex-w p-b-18">
+					<a href="#" class="m-all-1">
+						<img src="/assets/images/icons/icon-pay-01.png" alt="ICON-PAY">
+					</a>
+					<a href="#" class="m-all-1">
+						<img src="/assets/images/icons/icon-pay-02.png" alt="ICON-PAY">
+					</a>
+					<a href="#" class="m-all-1">
+						<img src="/assets/images/icons/icon-pay-03.png" alt="ICON-PAY">
+					</a>
+					<a href="#" class="m-all-1">
+						<img src="/assets/images/icons/icon-pay-04.png" alt="ICON-PAY">
+					</a>
+					<a href="#" class="m-all-1">
+						<img src="/assets/images/icons/icon-pay-05.png" alt="ICON-PAY">
+					</a>
+				</div>
+				<p class="stext-107 cl6 txt-center">
+					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+					Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">TECHFINIT GLOBAL</a> &amp; distributed by <a href="https://themewagon.com" target="_blank">PINK MARTINI</a>
+					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+				</p>
+			</div>
+		</div>
+	</footer>
+
+<script src="/assets/js/core/popper.min.js"></script>
+<script src="/assets/js/core/bootstrap.min.js"></script>
+<script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
+<script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+<script src="/assets/js/plugins/chartjs.min.js"></script>
+
+
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<script src="/assets/js/argon-dashboard.min.js?v=2.0.4"></script>
+<%- include('footer')-%>

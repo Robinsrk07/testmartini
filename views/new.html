@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<!-- Breadcrumb Styles -->
+<style>
+    .breadcrumbs {
+        list-style: none;
+        padding: 10px 15px;
+        background-color: #f8f8f8;
+        border-radius: 5px;
+        font-family: 'Arial', sans-serif;
+        display: flex;
+        align-items: center;
+    }
+    .breadcrumbs li {
+        display: inline;
+        margin-right: 5px;
+        font-size: 16px;
+    }
+    .breadcrumbs li a {
+        text-decoration: none;
+        color: #007bff;
+        transition: color 0.3s;
+    }
+    .breadcrumbs li a:hover {
+        color: #0056b3;
+    }
+    .breadcrumbs li span {
+        margin: 0 5px;
+        color: #6c757d;
+    }
+    .breadcrumbs li.active {
+        font-weight: bold;
+        color: #343a40;
+    }
+    .product-title {
+        font-size: 15px;
+        font-weight: bold;
+        margin-top: 20px;
+        display: inline;
+        color: #343a40;
+    }
+    .breadcrumbs li span.arrow {
+        margin: 0 5px;
+        color: #6c757d;
+    }
+</style>
+
+<ul class="breadcrumbs" style="margin-left: 90px;">
+    <% breadcrumbs.forEach((crumb, index) => { %>
+        <li<%= index === breadcrumbs.length - 1 ? ' class="active"' : '' %>>
+            <% if (index === breadcrumbs.length - 1) { %>
+                <%= crumb.text %> <span class="separator">|</span> <span class="product-title"><%= products.title %></span>
+            <% } else { %>
+                <a href="<%= crumb.url %>"><%= crumb.text %></a> <span class="separator">|</span>
+            <% } %>
+        </li>
+    <% }); %>
+</ul>
+
+<!-- Product Detail -->
+<section class="sec-product-detail bg0 p-t-65 p-b-60">
+    <div class="container">
+        <div class="row">
+            <!-- Image Gallery -->
+            <div class="col-md-6 col-lg-7 p-b-30">
+                <div class="p-l-25 p-r-30 p-lr-0-lg">
+                    <div class="wrap-slick3 flex-sb flex-w">
+                        <div class="wrap-slick3-dots"></div>
+                        <div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
+
+                        <div class="slick3 gallery-lb tozoom">
+                            <% if (products && products.variants && products.variants.length > 0) { %>
+                                <% products.variants.forEach((variant, variantIndex) => { %>
+                                    <% if (variant.images && variant.images.length > 0) { %>
+                                        <% variant.images.forEach((image, imageIndex) => { %>
+                                            <div class="item-slick3 zoom-container"
+                                                 data-thumb="data:<%= image.imagetype %>;base64,<%= image.imagedata.toString('base64') %>"
+                                                 data-variant-id="<%= variant.colour._id %>"
+                                                 style="<%= variantIndex !== 0 ? 'display: none;' : '' %>">
+                                                <div class="wrap-pic-w pos-relative">
+                                                    <img class="product-image" src="data:<%= image.imagetype %>;base64,<%= image.imagedata.toString('base64') %>" alt="IMG-PRODUCT" style="width: 100%; height: 500px; object-fit: cover;">
+                                                    <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="data:<%= image.imagetype %>;base64,<%= image.imagedata.toString('base64') %>">
+                                                        <i class="fa fa-expand"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        <% }); %>
+                                    <% } %>
+                                <% }); %>
+                            <% } else { %>
+                                <p>No images available for this product.</p>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Details -->
+            <div class="col-md-6 col-lg-5 p-b-30">
+                <div class="p-r-50 p-t-5 p-lr-0-lg">
+                    <h4 class="mtext-105 cl2 js-name-detail p-b-14">
+                        <%= products.title %>
+                    </h4>
+                    <div class="product">
+                        <span class="product-price original-price">RS.<%= products.variants[0].price %>/-</span>
+                        <span class="product-price discounted-price">RS.<%= Math.floor(products.variants[0].price * 0.9) %>/-</span>
+                    </div>
+                    <div class="star-rating">
+                        <% for (let i = 1; i <= 5; i++) { %>
+                            <span class="star <%= i <= products.rating ? '' : 'empty' %>">&#9733;</span>
+                        <% } %>
+                    </div>
+
+                    <p class="stext-102 cl3 p-t-23">
+                        Men Printed Polo Neck Cotton Blend Blue T-Shirt
+                    </p><br>
+
+                    <!-- Options -->
+                    <div class="flex-w flex-r-m p-b-10">
+                        <div class="size-203 flex-c-m respon6">
+                            Size
+                        </div>
+                        <div class="size-204 respon6-next">
+                            <div class="rs1-select2 bor8 bg0">
+                                <select class="js-select2" name="size">
+                                    <option value="">Choose an option</option>
+                                    <% products.variants.forEach(variant => { %>
+                                        <% variant.sizeQuantities.forEach(sizeQuantity => { %>
+                                            <option value="<%= sizeQuantity.size._id %>"><%= sizeQuantity.size.size %></option>
+                                        <% }) %>
+                                    <% }) %>
+                                </select>
+                                <div class="dropDownSelect2"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex-w flex-r-m p-b-10">
+                        <div class="size-203 flex-c-m respon6">
+                            Color
+                        </div>
+                        <div class="size-204 respon6-next">
+                            <div class="rs1-select2 bor8 bg0">
+                                <div class="rs1-select2 bor8 bg0">
+                                    <select class="js-select2" name="color" id="colorSelect">
+                                        <option value="">Choose an option</option>
+                                        <% products.variants.forEach(variant => { %>
+                                            <option value="<%= variant.colour._id %>"><%= variant.colour.colour %></option>
+                                        <% }); %>
+                                    </select>
+                                    <div class="dropDownSelect2"></div>
+                                </div>
+                                <div class="dropDownSelect2"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Price Container -->
+                    <div class="price-container">
+                        <% products.variants.forEach((variant, variantIndex) => { %>
+                            <div class="variant-price" data-variant-id="<%= variant.colour._id %>" style="display: <%= variantIndex === 0 ? 'block' : 'none' %>;">
+                                <span class="product-price original-price">RS.<%= variant.price %>/-</span>
+                                <span class="product-price discounted-price">RS.<%= Math.floor(variant.price * 0.9) %>/-</span>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+<script>
+	document.getElementById('colorSelect').addEventListener('change', function() {
+		const selectedVariantId = this.value;
+	
+		// Update prices
+		document.querySelectorAll('.variant-price').forEach(el => {
+			el.style.display = 'none';
+		});
+		const selectedVariantPrice = document.querySelector(`.variant-price[data-variant-id="${selectedVariantId}"]`);
+		if (selectedVariantPrice) {
+			selectedVariantPrice.style.display = 'block';
+		}
+	
+		// Update images
+		document.querySelectorAll('.item-slick3').forEach(el => {
+			el.style.display = 'none';
+		});
+		const variantImages = document.querySelectorAll(`.item-slick3[data-variant-id="${selectedVariantId}"]`);
+		variantImages.forEach(el => {
+			el.style.display = 'block';
+		});
+	
+		// Update thumbnails
+		const newThumbnails = Array.from(variantImages).map(img => {
+			return `<img src="${img.getAttribute('data-thumb')}" />`;
+		});
+	
+		// Update the slick dots with new thumbnails
+		const slickDots = document.querySelector('.wrap-slick3-dots');
+		if (slickDots) {
+			slickDots.innerHTML = newThumbnails.map((thumb, index) => `<button type="button" role="tab">${thumb}</button>`).join('');
+		}
+	
+		// Reinitialize Slick slider
+		$('.slick3').slick('unslick').slick({
+			slidesToShow: 1,
+			slidesToScroll: 1,
+			fade: true,
+			infinite: true,
+			autoplay: false,
+			autoplaySpeed: 6000,
+			arrows: true,
+			dots: true,
+			customPaging: function(slick, index) {
+				return newThumbnails[index];
+			}
+		});
+	});
+	
+	// Initialize Slick slider on page load
+	$(document).ready(function() {
+		$('.slick3').slick({
+			slidesToShow: 1,
+			slidesToScroll: 1,
+			fade: true,
+			infinite: true,
+			autoplay: false,
+			autoplaySpeed: 6000,
+			arrows: true,
+			dots: true,
+			customPaging: function(slick, index) {
+				const thumb = $(slick.$slides[index]).find('.wrap-pic-w img').attr('src');
+				return `<img src="${thumb}" />`;
+			}
+		});
+	});
+	</script>
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //////////////////////////////////////////////
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .chart-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        .chart-wrapper {
+            width: 48%;
+        }
+        canvas {
+            width: 100% !important;
+            height: 400px !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sales Dashboard</h1>
+        <div class="chart-container">
+            <div class="chart-wrapper">
+                <canvas id="monthlyChart"></canvas>
+            </div>
+            <div class="chart-wrapper">
+                <canvas id="yearlyChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+      // Parse the chart data passed from the controller
+      const chartData = JSON.parse('<%- chartData %>');
+  
+      // Function to get last 5 months including current month
+      function getLast5Months() {
+          const months = [];
+          const currentDate = new Date();
+          for (let i = 4; i >= 0; i--) {
+              const d = new Date(currentDate.getFullYear(), currentDate.getMonth() - i, 1);
+              months.push(d.toISOString().slice(0, 7)); // Format: YYYY-MM
+          }
+          return months;
+      }
+  
+      // Function to get last 5 years including current year
+      function getLast5Years() {
+          const years = [];
+          const currentYear = new Date().getFullYear();
+          for (let i = 4; i >= 0; i--) {
+              years.push((currentYear - i).toString());
+          }
+          return years;
+      }
+  
+      // Prepare data for monthly chart
+      const last5Months = getLast5Months();
+      const monthlyData = last5Months.map(month => {
+          const value = chartData.monthly.data[chartData.monthly.labels.indexOf(month)];
+          return value !== undefined ? value : 0;
+      });
+  
+      // Create monthly chart
+      const monthlyCtx = document.getElementById('monthlyChart').getContext('2d');
+      new Chart(monthlyCtx, {
+          type: 'bar',
+          data: {
+              labels: last5Months.map(month => {
+                  const [year, monthNum] = month.split('-');
+                  return `${['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][parseInt(monthNum) - 1]} ${year}`;
+              }),
+              datasets: [{
+                  label: 'Monthly Sales',
+                  data: monthlyData,
+                  backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                  borderColor: 'rgba(75, 192, 192, 1)',
+                  borderWidth: 1,
+                  barPercentage: 0.5,
+                  categoryPercentage: 0.8
+              }]
+          },
+          options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                  y: {
+                      beginAtZero: true,
+                      title: {
+                          display: true,
+                          text: 'Total Sales'
+                      }
+                  },
+                  x: {
+                      title: {
+                          display: true,
+                          text: 'Month-Year'
+                      }
+                  }
+              },
+              plugins: {
+                  title: {
+                      display: true,
+                      text: 'Monthly Sales (Last 5 Months)'
+                  }
+              }
+          }
+      });
+  
+      // Prepare data for yearly chart
+      const last5Years = getLast5Years();
+      const yearlyData = last5Years.map(year => {
+          const value = chartData.yearly.data[chartData.yearly.labels.indexOf(year)];
+          return value !== undefined ? value : 0;
+      });
+  
+      // Create yearly chart
+      const yearlyCtx = document.getElementById('yearlyChart').getContext('2d');
+      new Chart(yearlyCtx, {
+          type: 'bar',
+          data: {
+              labels: last5Years,
+              datasets: [{
+                  label: 'Yearly Sales',
+                  data: yearlyData,
+                  backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                  borderColor: 'rgba(255, 99, 132, 1)',
+                  borderWidth: 1,
+                  barPercentage: 0.5,
+                  categoryPercentage: 0.8
+              }]
+          },
+          options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                  y: {
+                      beginAtZero: true,
+                      title: {
+                          display: true,
+                          text: 'Total Sales'
+                      }
+                  },
+                  x: {
+                      title: {
+                          display: true,
+                          text: 'Year'
+                      }
+                  }
+              },
+              plugins: {
+                  title: {
+                      display: true,
+                      text: 'Yearly Sales (Last 5 Years)'
+                  }
+              }
+          }
+      });
+  </script>

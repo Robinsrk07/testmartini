@@ -1,0 +1,531 @@
+<%- include('header')-%>
+<body class="animsition">
+	
+	<!-- Header -->
+	<header class="header-v4">
+		<!-- Header desktop -->
+		<div class="container-menu-desktop " >
+			<!-- Topbar --><style>
+  #fixed-top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: inherit; /* This will maintain the current background color */
+  }
+
+  body {
+    padding-top: 40px; /* Adjust this value based on the height of your top bar */
+  }
+
+  /* If your top bar is inside the header, adjust the header's top margin */
+  .header-v4 {
+    margin-top: 40px; /* Should match the body's padding-top */
+  }
+</style>
+      <div id="fixed-top-bar">
+
+			<div class="top-bar">
+				<div class="content-topbar flex-sb-m h-full container">
+					<div class="left-top-bar">
+						Free shipping for standard order over RS 1000
+					</div>
+
+					<div class="right-top-bar flex-w h-full">
+						
+
+						<% if (user) { %>
+							<!-- Show username when logged in -->
+							<a href="" class="flex-c-m trans-04 p-lr-25">
+								 Welcome <%= user.name %>
+							</a>
+							<a href="/user/logout" class="flex-c-m trans-04 p-lr-25">
+								Logout
+							</a>
+						<% } else { %>
+							<!-- Show "My Account" when not logged in -->
+							<a href="/user/login" class="flex-c-m trans-04 p-lr-25">
+								My Account
+							</a>
+						<% } %>
+
+						<a href="/user/userhome" class="flex-c-m trans-04 p-lr-25">
+							MY PROFILE
+						</a>
+					</div>
+				</div>
+			</div></div>
+
+
+
+			<div class="wrap-menu-desktop how-shadow1">
+				<nav class="limiter-menu-desktop container">
+					
+					<!-- Logo desktop -->		
+					<a href="#" class="logo">
+						<h2 class="text-secondary"> <span>PINK</span>  MARTINI</h2>
+					</a>
+
+					<!-- Menu desktop -->
+					
+
+					<!-- Icon header -->
+					<div class="wrap-icon-header flex-w flex-r-m">
+						
+
+						<a href="/user/cart">
+							<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="<%= totalQuantity %>">
+								<i class="zmdi zmdi-shopping-cart"></i>
+							</div>
+						</a>
+							<a href="/user/getwishlist" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
+								<i class="zmdi zmdi-favorite-outline"></i>
+							</a>
+					</div>
+				</nav>
+			</div>	
+		</div>
+           
+			<!-- Header Mobile -->
+		<div class="wrap-header-mobile">
+			<!-- Logo moblie -->		
+			<div class="logo-mobile">
+				<h2 class="text-secondary"> <span>PINK</span>  MARTINI</h2>
+			</div>
+
+			<!-- Icon header -->
+			<div class="wrap-icon-header flex-w flex-r-m m-r-15">
+				<a href="/user/cart">
+					<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="<%= totalQuantity %>">
+						<i class="zmdi zmdi-shopping-cart"></i>
+					</div>
+				</a>
+					<a href="/user/getwishlist" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
+						<i class="zmdi zmdi-favorite-outline"></i>
+					</a>
+			</div>
+
+			<!-- Button show menu -->
+			<div class="btn-show-menu-mobile hamburger hamburger--squeeze">
+				<span class="hamburger-box">
+					<span class="hamburger-inner"></span>
+				</span>
+			</div>
+		</div>
+
+
+		<!-- Menu Mobile -->
+		<div class="menu-mobile">
+			<ul class="topbar-mobile">
+				<li>
+					<div class="left-top-bar">
+						Free shipping for standard order over RS 1000
+					</div>
+				</li>
+
+				<li>
+					<div class="right-top-bar flex-w h-full">
+						<% if (user) { %>
+							<!-- Show username when logged in -->
+							<a href="" class="flex-c-m trans-04 p-lr-25">
+								 Welcome <%= user.name %>
+							</a>
+							<a href="/user/logout" class="flex-c-m trans-04 p-lr-25">
+								Logout
+							</a>
+						<% } else { %>
+							<!-- Show "My Account" when not logged in -->
+							<a href="/user/login" class="flex-c-m trans-04 p-lr-25">
+								My Account
+							</a>
+						<% } %>
+
+						<a href="/user/userhome" class="flex-c-m trans-04 p-lr-25">
+							MY PROFILE
+						</a>
+                        <a href="/user/user_logged" class="flex-c-m trans-04 p-lr-25">
+							MY HOME
+						</a>
+					</div>
+				</li>
+			</ul>
+
+			
+		</div>
+
+		<!-- Modal Search -->
+		<div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
+			<div class="container-search-header">
+				<button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
+					<img src="/assets/images/icons/icon-close2.png" alt="CLOSE">
+				</button>
+
+				<form class="wrap-search-header flex-w p-l-15">
+					<button class="flex-c-m trans-04">
+						<i class="zmdi zmdi-search"></i>
+					</button>
+					<input class="plh3" type="text" name="search" placeholder="Search...">
+				</form>
+			</div>
+		</div>
+	</header>
+
+    <style>
+        body {
+            background-color: #f5e8d3; /* Light beige background */
+            color: #333;
+        }
+        .order-card {
+            background-color: #fff;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .order-header {
+            background-color: #2c2c2c; /* Dark gray, almost black */
+            color: #f5e8d3; /* Light beige text */
+            border-radius: 15px 15px 0 0;
+            padding: 20px;
+        }
+        .order-body {
+            padding: 20px;
+        }
+        .section-title {
+            color: #2c2c2c;
+            border-bottom: 2px solid #2c2c2c;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .status-badge {
+            font-size: 0.9em;
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+        .product-image {
+            max-width: 100px;
+            border-radius: 10px;
+        }
+        .generate-invoice-button {
+            text-align: right;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container my-5">
+        <div class="order-card">
+            <div class="order-header">
+                <h2>Order #<%= order.orderId %></h2>
+                <p class="mb-0">Placed on: <%= order.createdAt %></p>
+            </div>
+            <div class="order-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4 class="section-title">Order Details</h4>
+                        <p><strong>Total Amount:</strong> ₹<%= order.totalPayable %></p>
+                        <p><strong>Payment Method:</strong> <%= order.paymentMethod === 'cashOnDelivery' ? 'Cash on Delivery' : order.paymentMethod %></p>
+                        <p>
+                            <strong>Payment Status:</strong>
+                            <span class="status-badge bg-<%= order.paymentStatus === 'Completed' ? 'success' : 'warning' %>">
+                                <%= order.paymentStatus %>
+                            </span>
+                            <% if (order.paymentStatus === 'Pending') { %>
+                                <a href="/user/pay/<%= order._id %>" class="btn btn-primary btn-sm ms-2">Pay Now</a>
+                            <% } %>
+                        </p>
+                        <% if (order.razorpayOrderId) { %>
+                            <p><strong>Razorpay Order ID:</strong> <%= order.razorpayOrderId %></p>
+                        <% } %>
+                    </div>
+
+                    <div class="col-md-6">
+                        <h4 class="section-title">Shipping Address</h4>
+                        <p><%= order.address.name %></p>
+                        <p><%= order.address.address %></p>
+                        <p><%= order.address.locality %></p>
+                        <p><%= order.address.pinCode %></p>
+                        <p>Phone: <%= order.address.phoneNumber %></p>
+                        <p>Email: <%= order.address.email %></p>
+                        <% if (order.address.additionalInfo) { %>
+                            <p>Additional Info: <%= order.address.additionalInfo %></p>
+                        <% } %>
+                    </div>
+                </div>
+                
+                <h4 class="section-title mt-4">Order Items</h4>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Details</th>
+                                <th>Action</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% order.items.forEach(item => { %>
+                                <tr>
+                                    <td>
+                                        <img src="data:image/jpeg;base64,<%= item.image.imagedata.toString('base64') %>" alt="<%= item.productTitle %>" class="product-image">
+                                    </td>
+                                    <td>
+                                        <h5><%= item.productTitle %></h5>
+                                        <p>Color: <%= item.colourName %>, Size: <%= item.sizeName %></p>
+                                        <p>Status: 
+                                            <span class="status-badge bg-<%= item.status === 'cancelled' ? 'danger' : 'info' %>">
+                                                <%= item.status %>
+                                            </span>
+                                        </p>
+                                    </td>
+                                    <td style="padding-left: 10px;">OrderId: <%= order.orderId %><br>
+                                        Date: <%= order.createdAt %><br>
+                                        <% if (item.status == 'Delivered') { %>
+                                            <a href="/user/return-item/<%= order._id %>/<%= item._id %>" class="return-order-link">Return Order</a>
+                                        <% } else { %>
+                                            <a href="#" class="cancel-order-link" data-order-id="<%= order._id %>" data-item-id="<%= item._id %>">Cancel Order</a>
+                                        <% } %>
+                                    </td>
+                                    <td><%= item.quantity %></td>
+                                    <td>₹<%= item.DiscountedPrice.toFixed(2) %></td>
+                                    <td>₹<%= (item.totalPayable).toFixed(2) %></td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="row mt-4">
+                    <div class="col-md-6 offset-md-6">
+                        <table class="table">
+                            <tr>
+                                <td><strong>Subtotal:</strong></td>
+                                <td>₹<%= order.total.toFixed(2) %></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Discount:</strong></td>
+                                <td>₹<%= order.offerDiscount.toFixed(2) %></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Coupon Discount:</strong></td>
+                                <td>₹<%= order.CouponDiscount.toFixed(2) %></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Total Payable:</strong></td>
+                                <td><strong>₹<%= order.totalPayable.toFixed(2) %></strong></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="generate-invoice-button">
+                    <button id="generateInvoice" class="btn btn-primary">Generate Invoice</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.cancel-order-link').forEach(link => {
+                link.addEventListener('click', async (event) => {
+                    event.preventDefault();
+                    const orderId = event.target.getAttribute('data-order-id');
+                    const itemId = event.target.getAttribute('data-item-id');
+
+                    const userConfirmed = confirm('Are you sure you want to cancel this order?');
+                    if (userConfirmed) {
+                        try {
+                            const response = await fetch(`/user/cancel_order/${orderId}/${itemId}`, {
+                                method: 'GET',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                }
+                            });
+
+                            if (response.ok) {
+                                alert('Order cancelled successfully.');
+                                location.reload();
+                            } else {
+                                alert('Failed to cancel the order. Please try again.');
+                            }
+                        } catch (error) {
+                            console.error('Error cancelling the order:', error);
+                            alert('An error occurred. Please try again.');
+                        }
+                    }
+                });
+            });
+
+            document.getElementById('generateInvoice').addEventListener('click', () => {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+
+                // Helper function to add wrapped text
+                function addWrappedText(text, x, y, maxWidth, lineHeight) {
+                    const lines = doc.splitTextToSize(text, maxWidth);
+                    for (let i = 0; i < lines.length; i++) {
+                        doc.text(lines[i], x, y + (i * lineHeight));
+                    }
+                    return lines.length * lineHeight;
+                }
+
+                // Add content to the PDF
+                doc.setFontSize(20);
+                doc.text('Order Invoice', 105, 15, null, null, 'center');
+                
+                doc.setFontSize(12);
+                doc.text(`Order #: <%= order.orderId %>`, 20, 30);
+                doc.text(`Date: <%= order.createdAt %>`, 20, 40);
+
+                // Order Details
+                doc.setFontSize(14);
+                doc.text('Order Details', 20, 55);
+                doc.setFontSize(10);
+                doc.text(`Total Amount: ₹<%= order.totalPayable.toFixed(2) %>`, 20, 65);
+                doc.text(`Payment Method: <%= order.paymentMethod === 'cashOnDelivery' ? 'Cash on Delivery' : order.paymentMethod %>`, 20, 75);
+                doc.text(`Payment Status: <%= order.paymentStatus %>`, 20, 85);
+                <% if (order.razorpayOrderId) { %>
+                    doc.text(`Razorpay Order ID: <%= order.razorpayOrderId %>`, 20, 95);
+                <% } %>
+
+                // Shipping Address
+                doc.setFontSize(14);
+                doc.text('Shipping Address', 120, 55);
+                doc.setFontSize(10);
+                let addressY = 65;
+                addressY += addWrappedText('<%= order.address.name %>', 120, addressY, 70, 5);
+                addressY += addWrappedText('<%= order.address.address %>', 120, addressY + 5, 70, 5);
+                addressY += addWrappedText('<%= order.address.locality %>', 120, addressY + 5, 70, 5);
+                doc.text(`<%= order.address.pinCode %>`, 120, addressY + 5);
+                doc.text(`Phone: <%= order.address.phoneNumber %>`, 120, addressY + 15);
+                doc.text(`Email: <%= order.address.email %>`, 120, addressY + 25);
+                <% if (order.address.additionalInfo) { %>
+                    addressY += addWrappedText(`Additional Info: <%= order.address.additionalInfo %>`, 120, addressY + 35, 70, 5);
+                <% } %>
+
+                // Order Items
+                doc.setFontSize(14);
+                doc.text('Order Items', 20, 115);
+                doc.setFontSize(10);
+                let yPos = 125;
+                doc.text('Product', 20, yPos);
+                doc.text('Quantity', 100, yPos);
+                doc.text('Price', 130, yPos);
+                doc.text('Total', 160, yPos);
+                yPos += 10;
+
+                <% order.items.forEach((item, index) => { %>
+                    yPos += addWrappedText(`<%= item.productTitle %>`, 20, yPos, 70, 5);
+                    doc.text(`Color: <%= item.colourName %>, Size: <%= item.sizeName %>`, 20, yPos + 5);
+                    doc.text(`Status: <%= item.status %>`, 20, yPos + 10);
+                    doc.text(`<%= item.quantity %>`, 100, yPos);
+                    doc.text(`₹<%= item.DiscountedPrice.toFixed(2) %>`, 130, yPos);
+                    doc.text(`₹<%= item.totalPayable.toFixed(2) %>`, 160, yPos);
+                    yPos += 20;
+                <% }); %>
+
+                // Totals
+                doc.line(20, yPos, 190, yPos);
+                yPos += 10;
+                doc.text(`Subtotal: ₹<%= order.total.toFixed(2) %>`, 130, yPos);
+                yPos += 10;
+                doc.text(`Discount: ₹<%= order.offerDiscount.toFixed(2) %>`, 130, yPos);
+                yPos += 10;
+                doc.text(`Coupon Discount: ₹<%= order.CouponDiscount.toFixed(2) %>`, 130, yPos);
+                yPos += 10;
+                doc.setFontSize(12);
+                doc.text(`Total Payable: ₹<%= order.totalPayable.toFixed(2) %>`, 130, yPos);
+
+                // Save the PDF
+                doc.save(`Invoice_<%= order.orderId %>.pdf`);
+            });
+        });
+    </script>
+
+
+<footer class="bg3 p-t-75 p-b-32">
+		<div class="container">
+			<div class="row justify-content-between">
+				<div class="col-sm-6 col-lg-3 p-b-50">
+					<h4 class="stext-301 cl0 p-b-30">
+						Categories
+					</h4>
+					<ul>
+						<% category.forEach(function(category) { %>
+							<li class="p-b-10">
+								<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+									<%= category.name %>
+								</a>
+							</li>
+						<% }); %>
+					</ul>
+				</div>
+		
+				<div class="col-sm-6 col-lg-4 p-b-50 order-lg-3 p-2 ">
+					<h4 class="stext-301 cl0 p-b-30">
+						Newsletter
+					</h4>
+					<form>
+						<div class="wrap-input1 w-full p-b-4">
+							<input class="input1 bg-none plh1 stext-107 cl7" type="text" name="email" placeholder="pinkmartini@gmail.com">
+							<div class="focus-input1 trans-04"></div>
+						</div>
+						<div class="p-t-18">
+							<button class="flex-c-m stext-101 cl0 size-103 bg1 bor1 hov-btn2 p-lr-15 trans-04">
+								Subscribe
+							</button>
+						</div>
+					</form>
+				</div>
+		
+				<div class="col-sm-6 col-lg-3 p-b-50 mx-auto order-lg-2">
+					<h4 class="stext-301 cl0 p-b-30">
+						GET IN TOUCH
+					</h4>
+					<p class="stext-107 cl7 size-201">
+						Any questions? Let us know in store at 2nd floor kalpetta, wayanad :+919562687807
+					</p>
+				</div>
+			</div>
+		
+			<div class="p-t-40">
+				<div class="flex-c-m flex-w p-b-18">
+					<a href="#" class="m-all-1">
+						<img src="/assets/images/icons/icon-pay-01.png" alt="ICON-PAY">
+					</a>
+					<a href="#" class="m-all-1">
+						<img src="/assets/images/icons/icon-pay-02.png" alt="ICON-PAY">
+					</a>
+					<a href="#" class="m-all-1">
+						<img src="/assets/images/icons/icon-pay-03.png" alt="ICON-PAY">
+					</a>
+					<a href="#" class="m-all-1">
+						<img src="/assets/images/icons/icon-pay-04.png" alt="ICON-PAY">
+					</a>
+					<a href="#" class="m-all-1">
+						<img src="/assets/images/icons/icon-pay-05.png" alt="ICON-PAY">
+					</a>
+				</div>
+				<p class="stext-107 cl6 txt-center">
+					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+					Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">TECHFINIT GLOBAL</a> &amp; distributed by <a href="https://themewagon.com" target="_blank">PINK MARTINI</a>
+					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+				</p>
+			</div>
+		</div>
+	</footer>
+
+<script src="/assets/js/core/popper.min.js"></script>
+<script src="/assets/js/core/bootstrap.min.js"></script>
+<script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
+<script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+<script src="/assets/js/plugins/chartjs.min.js"></script>
+
+
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<script src="/assets/js/argon-dashboard.min.js?v=2.0.4"></script>
+<%- include('footer')-%>

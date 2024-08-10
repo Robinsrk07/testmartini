@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f7e9eb;
+        }
+        .card {
+            border-radius: 1rem;
+        }
+        .btn-primary {
+            background-color: #e91e63;
+            border-color: #e91e63;
+        }
+        .btn-primary:hover {
+            background-color: #c2185b;
+            border-color: #c2185b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">OTP Verification</h5>
+                        <form id="otpForm">
+                            <div class="mb-3">
+                                <label for="otp" class="form-label">Enter OTP</label>
+                                <input type="text" class="form-control" id="otp" name="otp" required>
+                            </div>
+                            <!-- Hidden input field for email -->
+                            <input type="hidden" id="email" value="<%= email %>">
+                            <input type="hidden" id="mobile" value="<%= mobile %>">
+                            <input type="hidden" id="name" value="<%= name %>">
+                            <input type="hidden" id="password" value="<%= password %>">
+                            <div class="text-center mb-3">
+                                <button type="submit" class="btn btn-primary">Verify OTP</button>
+                            </div>
+                            <div id="otpError" class="text-danger text-center"></div>
+                        </form>
+                        <div id="resendTimer" class="text-center">
+                            Resend OTP in <span id="timer">60</span> seconds
+                        </div>
+                        <div class="text-center mt-3">
+                            <a href="#" id="resend-otp" class="btn btn-link">Resend OTP</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Access and log the email value from the hidden input
+        const email = document.getElementById('email').value;
+        const name = document.getElementById('name').value;
+        const mobile = document.getElementById('mobile').value;
+        const password = document.getElementById('password').value;
+        console.log("Email from backend:", email);
+
+        let timeLeft = 10;
+        const timerElement = document.getElementById('timer');
+        const otpForm = document.getElementById('otpForm');
+        const otpError = document.getElementById('otpError');
+        const resendOTPButton = document.getElementById('resend-otp');
+
+        otpForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const otp = document.getElementById('otp').value.trim();
+            if (otp.length !== 6 || !/^\d+$/.test(otp)) {
+                otpError.innerText = 'Invalid OTP';
+            } else {
+                otpError.innerText = '';
+                fetch('/user/otp_validation', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ otp,email,mobile,password ,name})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: 'OTP verified successfully',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        window.location.href = data.redirectUrl; // Redirect the user to the login page
+                    });
+                    } else {
+                        otpError.innerText = data.message;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error verifying OTP:', error);
+                    otpError.innerText = 'An error occurred. Please try again.';
+                });
+            }
+        });
+
+        function startTimer() {
+            timeLeft = 30;
+            timerElement.innerText = timeLeft;
+            resendOTPButton.style.display = 'none';
+            const resendTimer = setInterval(function() {
+                timeLeft--;
+                timerElement.innerText = timeLeft;
+                if (timeLeft === 0) {
+                    clearInterval(resendTimer);
+                    timerElement.innerText = '';
+                    resendOTPButton.style.display = 'block';
+                }
+            }, 1000);
+        }
+
+        function resendOTP(event) {
+            event.preventDefault(); // Prevent the default link behavior
+            fetch('/user/resend_otp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email: email })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('OTP resent:', data.message);
+                startTimer();
+            })
+            .catch(error => {
+                console.error('Error resending OTP:', error);
+            });
+        }
+
+        resendOTPButton.addEventListener('click', resendOTP);
+        startTimer();
+        
+    </script><script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+</html>
